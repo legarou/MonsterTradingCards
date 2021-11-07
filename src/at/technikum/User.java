@@ -32,10 +32,6 @@ public class User {
         // TBD
     }
 
-    public void battle() {
-        // TBD
-    }
-
     public void manageCards() {
         // TBD
     }

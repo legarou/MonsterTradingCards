@@ -7,4 +7,8 @@ public class Monster extends Card {
         super(name, damage, elementType);
         this.monsterType = monsterType;
     }
+
+    public MonsterType getMonsterType() {
+        return monsterType;
+    }
 }
