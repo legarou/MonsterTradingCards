@@ -14,7 +14,7 @@ public class Battle {
 
     public Battle(User playerOne, User playerTwo) {
         this.playerOne = playerOne;
-        this.deckOne = playerOne.getCardStack().getDeck().clone();
+        this.deckOne = playerOne.getCardStack().getDeck();
         this.playerTwo = playerTwo;
         this.deckTwo = playerTwo.getCardStack().getDeck();
         // check for NULL
@@ -32,6 +32,8 @@ public class Battle {
         {
 
         }
+
+        return -1;
     }
 
     //returns winner, 1 for playerOne and 2 for playerTwo
