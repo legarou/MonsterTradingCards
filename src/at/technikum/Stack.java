@@ -8,7 +8,7 @@ public class Stack {
 
     public Stack() {
         this.stack = new ArrayList<>();
-        this.deck  = new ArrayList<>();
+        this.deck = new ArrayList<>();
     }
 
     public ArrayList<Card> getStack() {
@@ -16,12 +16,7 @@ public class Stack {
     }
 
     public ArrayList<Card> getDeck() {
-        if(deck.size() != 4) {
-            return null;
-        }
-        else {
-            return deck;
-        }
+        return deck;
     }
 
     public void addCardToStack(Card newCard) {
@@ -29,16 +24,35 @@ public class Stack {
     }
 
     public void addToDeck(Card newCard) {
-        deck.add(newCard);
+        if (!newCard.getIsInDeck()) {
+            deck.add(newCard);
+            newCard.changeIsInDeck();
+        } else {
+            System.out.println("Card is already in deck!");
+        }
+
     }
 
     public void removeFromDeck(Card oldCard) {
-        for (Card i : deck)
-        {
-            if(i.getName() == oldCard.getName()) {
-                deck.remove(i);
-                break;
+        if (oldCard.getIsInDeck()) {
+            deck.remove(oldCard);
+            oldCard.changeIsInDeck();
+        }
+    }
+
+    public void printStack() {
+        for (Card i : stack) {
+            System.out.println("Card: " + i.getName());
+        }
+    }
+
+    public void printDeck() {
+        if (deck.size() != 0) {
+            for (Card i : deck) {
+                System.out.println("Card: " + i.getName());
             }
+        } else {
+            System.out.println("Deck is empty!");
         }
     }
 }
