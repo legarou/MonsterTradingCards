@@ -16,7 +16,7 @@ public class Battle {
     private BattleOutcome battleOutcome;
 
     // Constructor
-    // does a max. of 100 rounds of fights
+    // does a max. of 100 rounds of one-on-one fights
     public Battle(@NotNull User playerOne, @NotNull User playerTwo) {
         if (playerOne.getCardStack().getDeck().size() == 4 && playerTwo.getCardStack().getDeck().size() == 4) {
             this.playerOne = playerOne;
@@ -27,6 +27,8 @@ public class Battle {
             this.battleOutcome = BattleOutcome.DRAW;
             // check for NULL
             // check for deck size
+
+            System.out.println(playerOne.getUsername() + " VS " + playerTwo.getUsername());
 
             while ((roundCounter <= 100) && !isGameOver()) {
                 System.out.println("Round " + roundCounter + ":");
@@ -41,19 +43,232 @@ public class Battle {
 
     }
 
-    // returns true if any deck is empty
-    private Boolean isGameOver() {
-        if (deckOne.size() == 0 || deckTwo.size() == 0) {
-            return true;
-        } else {
-            return false;
+    // executes the fight between two random cards from each deck
+    private void fight() {
+        playCardOne = returnRandom(deckOne);
+        playCardTwo = returnRandom(deckTwo);
+
+        System.out.println(playerOne.getUsername() + " plays: " + playCardOne.getName());
+        System.out.println(playCardOne.getDescription());
+        System.out.println(playerTwo.getUsername() + " plays: " + playCardTwo.getName());
+        System.out.println(playCardTwo.getDescription());
+
+        if (playCardOne instanceof Monster) {
+            if (playCardTwo instanceof Monster) // element irrelevant
+            {
+                System.out.println("Both players played a Monster card! Element type will have no effect during this round.");
+                monsterFight((Monster) playCardOne, (Monster) playCardTwo);
+            } else {
+                mixedFight();
+            }
+        } else if (playCardTwo instanceof Monster) {
+            mixedFight();
+        } else // two spells
+        {
+            elementFight();
         }
     }
 
-    // returns random number between 0 and deck.size()-1
-    private Card returnRandom(@NotNull ArrayList<Card> deck) {
-        int randNum = ThreadLocalRandom.current().nextInt(0, deck.size());
-        return deck.get(randNum);
+    private void monsterFight(Monster playCardOne, Monster playCardTwo) {
+        /*    • Goblins are too afraid of Dragons to attack.
+              • Wizzard can control Orks so they are not able to damage them.
+              • The FireElves know Dragons since they were little and can evade their attacks.
+        */
+        if (MonsterType.DRAGON == playCardOne.getMonsterType()) {
+            if (MonsterType.GOBLIN == playCardTwo.getMonsterType()) {
+                System.out.println("Goblins are too afraid of Dragons to attack!");
+                System.out.println(playCardTwo.getName() + " cowers as " + playCardOne.getName() + " slays them!");
+                System.out.println(playerOne.getUsername() + " won this round!");
+                battleOutcome = BattleOutcome.PLAYER1;
+            } else if (MonsterType.FIREELF == playCardTwo.getMonsterType()) {
+                System.out.println("The FireElves know Dragons since they were little and can evade their attacks.");
+                System.out.println(playCardTwo.getName() + " evades " + playCardOne.getName() + "'s attack skillfully and slays them with ease!");
+                System.out.println(playerTwo.getUsername() + " won this round!");
+                battleOutcome = BattleOutcome.PLAYER2;
+            } else {
+                System.out.println("This will a pure fight of power!");
+                //noTrumps();
+                battleOutcome = BattleOutcome.DRAW;
+                trumpFight();
+            }
+        } else if (MonsterType.DRAGON == playCardTwo.getMonsterType()) {
+            if (MonsterType.GOBLIN == playCardOne.getMonsterType()) {
+                System.out.println("Goblins are too afraid of Dragons to attack!");
+                System.out.println(playCardOne.getName() + " cowers as " + playCardTwo.getName() + " slays them!");
+                System.out.println(playerTwo.getUsername() + " won this round!");
+                battleOutcome = BattleOutcome.PLAYER2;
+            } else if (MonsterType.FIREELF == playCardOne.getMonsterType()) {
+                System.out.println("The FireElves know Dragons since they were little and can evade their attacks.");
+                System.out.println(playCardOne.getName() + " evades " + playCardTwo.getName() + "'s attack skillfully and slays them with ease!");
+                System.out.println(playerOne.getUsername() + " won this round!");
+                battleOutcome = BattleOutcome.PLAYER1;
+            } else {
+                System.out.println("This will a pure fight of power!");
+                //noTrumps();
+                battleOutcome = BattleOutcome.DRAW;
+                trumpFight();
+            }
+        } else if (MonsterType.WIZZARD == playCardOne.getMonsterType() && MonsterType.ORK == playCardTwo.getMonsterType()) {
+            System.out.println("Wizzards can control Orks! Orks are unable to attack or defend themselves.");
+            System.out.println(playCardTwo.getName() + " is unable to move! " + playCardOne.getName() + "slays them with ease!");
+            System.out.println(playerOne.getUsername() + " won this round!");
+            battleOutcome = BattleOutcome.PLAYER1;
+        } else if (MonsterType.ORK == playCardOne.getMonsterType() && MonsterType.WIZZARD == playCardTwo.getMonsterType()) {
+            System.out.println("Wizzards can control Orks! Orks are unable to attack or defend themselves.");
+            System.out.println(playCardOne.getName() + " is unable to move! " + playCardTwo.getName() + "slays them with ease!");
+            System.out.println(playerTwo.getUsername() + " won this round!");
+            battleOutcome = BattleOutcome.PLAYER2;
+        } else {
+            System.out.println("This will a pure fight of power!");
+            //noTrumps();
+            battleOutcome = BattleOutcome.DRAW;
+            trumpFight();
+        }
+
+    }
+
+    private void mixedFight() { //Monster monsterCard, Spell spellCard
+        /*    • The armor of Knights is so heavy that WaterSpells make them drown them instantly.
+              • The Kraken is immune against spells.
+        */
+
+        if(playCardOne instanceof Monster) {
+            if (MonsterType.KNIGHT == ((Monster) playCardOne).getMonsterType() && ElementType.WATER == playCardTwo.getElementType()) {
+                System.out.println(playCardOne.getName() + "'s armor is too heavy!! Any WaterSpells make them drown instantly.");
+                battleOutcome = BattleOutcome.PLAYER2;
+            } else if (MonsterType.KRAKEN == ((Monster) playCardOne).getMonsterType()) {
+                System.out.println("The Kraken is immune against spells!");
+                battleOutcome = BattleOutcome.PLAYER1;
+            } else {
+                if (((Monster) playCardOne).getElementType() != playCardTwo.getElementType()) {
+                    elementFight();
+                } else {
+                    System.out.println("Both Cards have the same ElementType! No trumps this round.");
+                    //noTrumps();
+                    battleOutcome = BattleOutcome.DRAW;
+                    trumpFight();
+                }
+            }
+        }
+        else { // playCardTwo instanceof Monster
+            if (MonsterType.KNIGHT == ((Monster) playCardTwo).getMonsterType() && ElementType.WATER == playCardOne.getElementType()) {
+                System.out.println(((Monster) playCardTwo).getName() + "'s armor is too heavy!! Any WaterSpells make them drown instantly.");
+                battleOutcome = BattleOutcome.PLAYER1;
+            } else if (MonsterType.KRAKEN == ((Monster) playCardTwo).getMonsterType()) {
+                System.out.println("The Kraken is immune against spells!");
+                battleOutcome = BattleOutcome.PLAYER2;
+            } else {
+                if (((Monster) playCardTwo).getElementType() != playCardOne.getElementType()) {
+                    elementFight();
+                } else {
+                    System.out.println("Both Cards have the same ElementType! No trumps this round.");
+                    //noTrumps();
+                    battleOutcome = BattleOutcome.DRAW;
+                    trumpFight();
+                }
+            }
+        }
+
+        /*
+        if (MonsterType.KNIGHT == monsterCard.getMonsterType() && ElementType.WATER == spellCard.getElementType()) {
+            System.out.println(monsterCard.getName() + "'s armor is so heavy!! Any WaterSpells make them drown instantly.");
+            spellWins();
+        } else if (MonsterType.KRAKEN == monsterCard.getMonsterType()) {
+            System.out.println("The Kraken is immune against spells!");
+            monsterWins();
+        } else {
+            if (monsterCard.getElementType() != spellCard.getElementType()) {
+                elementFight();
+            } else {
+                System.out.println("Both Cards have the same ElementType! No trumps this round.");
+                noTrumps();
+            }
+        }*/
+
+    }
+
+    // if elements are not equal
+    private void elementFight() {
+        /*      • water -> fire
+                • fire -> normal
+                • normal -> water
+         */
+        if (ElementType.WATER == playCardOne.getElementType()) {
+            if (ElementType.FIRE == playCardTwo.getElementType()) {
+                System.out.println("Water trumps Fire!");
+                //playerOneElementTrump();
+                battleOutcome = BattleOutcome.PLAYER1;
+                trumpFight();
+            } else if (ElementType.NORMAL == playCardTwo.getElementType()) {
+                System.out.println("Normal trumps Water!");
+                //playerTwoElementTrump();
+                battleOutcome = BattleOutcome.PLAYER2;
+                trumpFight();
+            }
+        } else if (ElementType.FIRE == playCardOne.getElementType()) {
+            if (ElementType.NORMAL == playCardTwo.getElementType()) {
+                System.out.println("Fire trumps Normal!");
+                //playerOneElementTrump();
+                battleOutcome = BattleOutcome.PLAYER1;
+                trumpFight();
+            } else if (ElementType.WATER == playCardTwo.getElementType()) {
+                System.out.println("Water trumps Fire!");
+                //playerTwoElementTrump();
+                battleOutcome = BattleOutcome.PLAYER2;
+                trumpFight();
+            }
+        } else if (ElementType.NORMAL == playCardOne.getElementType()) {
+            if (ElementType.WATER == playCardTwo.getElementType()) {
+                System.out.println("Normal trumps Water!");
+                //playerOneElementTrump();
+                battleOutcome = BattleOutcome.PLAYER1;
+                trumpFight();
+            } else if (ElementType.FIRE == playCardTwo.getElementType()) {
+                System.out.println("Fire trumps Normal!");
+                //playerTwoElementTrump();
+                battleOutcome = BattleOutcome.PLAYER2;
+                trumpFight();
+            }
+        } else {
+            // else equal but is checked before
+            //noTrumps();
+            battleOutcome = BattleOutcome.DRAW;
+            trumpFight();
+        }
+
+    }
+
+    private void trumpFight() {
+        Integer playerOnePower = playCardOne.getDamage();
+        Integer playerTwoPower = playCardTwo.getDamage();
+        switch (battleOutcome) {
+            case DRAW -> {
+                break;
+            }
+            case PLAYER1 -> {
+                System.out.println(playCardOne.getName() + " gets their attack doubled, while the attack of " + playCardTwo.getName() + " gets halved!");
+                playerOnePower *= 2;
+                playerTwoPower /= 2;
+                break;
+            }
+            case PLAYER2 -> {
+                System.out.println(playCardTwo.getName() + " gets their attack doubled, while the attack of " + playCardOne.getName() + " gets halved!");
+                playerOnePower /= 2;
+                playerTwoPower *= 2;
+                break;
+            }
+            default -> throw new IllegalStateException("Unexpected value: " + battleOutcome);
+        }
+
+        System.out.println(playerOne.getUsername() + " with " + playerOnePower + " damage VS " + playerTwo.getUsername() + " with " + playerTwoPower);
+        if (playerOnePower > playerTwoPower) {
+            battleOutcome = BattleOutcome.PLAYER1;
+        } else if (playerOnePower < playerTwoPower) {
+            battleOutcome = BattleOutcome.PLAYER2;
+        } else {
+            battleOutcome = BattleOutcome.DRAW;
+        }
+
     }
 
     // if one player won, it takes the others losing card from the losers deck and puts it into the winners
@@ -92,140 +307,58 @@ public class Battle {
 
     }
 
-    // executes the fight between two cards
-    private void fight() {
-        playCardOne = returnRandom(deckOne);
-        playCardTwo = returnRandom(deckTwo);
+    // returns random number between 0 and deck.size()-1
+    private Card returnRandom(@NotNull ArrayList<Card> deck) {
+        int randNum = ThreadLocalRandom.current().nextInt(0, deck.size());
+        return deck.get(randNum);
+    }
 
-        System.out.println(playerOne.getUsername() + " plays: " + playCardOne.getName());
-        System.out.println(playCardOne.getDescription());
-        System.out.println(playerTwo.getUsername() + " plays: " + playCardTwo.getName());
-        System.out.println(playCardTwo.getDescription());
-
-        if (playCardOne instanceof Monster) {
-            if (playCardTwo instanceof Monster) // element irrelevant
-            {
-                System.out.println("Both players played a Monster card! Element type does not matter in this round.");
-                monsterFight((Monster) playCardOne, (Monster) playCardTwo);
-            } else {
-                mixedFight((Monster) playCardOne, (Spell) playCardTwo);
-            }
-        } else if (playCardTwo instanceof Monster) {
-            mixedFight((Monster) playCardTwo, (Spell) playCardOne);
-        } else // two spells
-        {
-            elementFight();
+    // returns true if any deck is empty
+    private Boolean isGameOver() {
+        if (deckOne.size() == 0 || deckTwo.size() == 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 
-    private void monsterFight(Monster playCardOne, Monster playCardTwo) {
-        /*    • Goblins are too afraid of Dragons to attack.
-              • Wizzard can control Orks so they are not able to damage them.
-              • The FireElves know Dragons since they were little and can evade their attacks.
-        */
-        if (MonsterType.DRAGON == playCardOne.getMonsterType()) {
-            if (MonsterType.GOBLIN == playCardTwo.getMonsterType()) {
-                System.out.println("Goblins are too afraid of Dragons to attack!");
-                System.out.println(playCardTwo.getName() + " cowers as " + playCardOne.getName() + " slays them!");
-                System.out.println(playerOne.getUsername() + " won this round!");
-                battleOutcome = BattleOutcome.PLAYER1;
-            } else if (MonsterType.FIREELF == playCardTwo.getMonsterType()) {
-                System.out.println("The FireElves know Dragons since they were little and can evade their attacks.");
-                System.out.println(playCardTwo.getName() + " evades " + playCardOne.getName() + "'s attack skillfully and slays them with ease!");
-                System.out.println(playerTwo.getUsername() + " won this round!");
-                battleOutcome = BattleOutcome.PLAYER2;
-            } else {
-                System.out.println("This will a pure fight of power!");
-                noTrumps();
+    private void proclaimWinner() {
+        switch (battleOutcome) {
+            case DRAW -> {
+                System.out.println("Both players are matched in might and wit! No winners this round!");
+                break;
             }
-        } else if (MonsterType.DRAGON == playCardTwo.getMonsterType()) {
-            if (MonsterType.GOBLIN == playCardOne.getMonsterType()) {
-                System.out.println("Goblins are too afraid of Dragons to attack!");
-                System.out.println(playCardOne.getName() + " cowers as " + playCardTwo.getName() + " slays them!");
-                System.out.println(playerTwo.getUsername() + " won this round!");
-                battleOutcome = BattleOutcome.PLAYER2;
-            } else if (MonsterType.FIREELF == playCardOne.getMonsterType()) {
-                System.out.println("The FireElves know Dragons since they were little and can evade their attacks.");
-                System.out.println(playCardOne.getName() + " evades " + playCardTwo.getName() + "'s attack skillfully and slays them with ease!");
-                System.out.println(playerOne.getUsername() + " won this round!");
-                battleOutcome = BattleOutcome.PLAYER1;
-            } else {
-                System.out.println("This will a pure fight of power!");
-                noTrumps();
+            case PLAYER1 -> {
+                System.out.println(playerOne.getUsername() + " wins! Congratulations!");
+                break;
             }
-        } else if (MonsterType.WIZZARD == playCardOne.getMonsterType() && MonsterType.ORK == playCardTwo.getMonsterType()) {
-            System.out.println("Wizzards can control Orks! Orks are unable to attack or defend themselves.");
-            System.out.println(playCardTwo.getName() + " is unable to move! " + playCardOne.getName() + "slays them with ease!");
+            case PLAYER2 -> {
+                System.out.println(playerTwo.getUsername() + " wins! Congratulations!");
+                break;
+            }
+            default -> throw new IllegalStateException("Unexpected value: " + battleOutcome);
+        }
+    }
+
+    /*
+    private void monsterWins() {
+        if (playCardOne instanceof Monster) {
             System.out.println(playerOne.getUsername() + " won this round!");
             battleOutcome = BattleOutcome.PLAYER1;
-        } else if (MonsterType.ORK == playCardOne.getMonsterType() && MonsterType.WIZZARD == playCardTwo.getMonsterType()) {
-            System.out.println("Wizzards can control Orks! Orks are unable to attack or defend themselves.");
-            System.out.println(playCardOne.getName() + " is unable to move! " + playCardTwo.getName() + "slays them with ease!");
+        } else {
             System.out.println(playerTwo.getUsername() + " won this round!");
             battleOutcome = BattleOutcome.PLAYER2;
-        } else {
-            System.out.println("This will a pure fight of power!");
-            noTrumps();
         }
-
     }
 
-    private void mixedFight(Monster monsterCard, Spell spellCard) {
-        /*    • The armor of Knights is so heavy that WaterSpells make them drown them instantly.
-              • The Kraken is immune against spells.
-        */
-        if (MonsterType.KNIGHT == monsterCard.getMonsterType() && ElementType.WATER == spellCard.getElementType()) {
-            System.out.println(monsterCard.getName() + "'s armor is so heavy!! Any WaterSpells make them drown instantly.");
-            spellWins();
-        } else if (MonsterType.KRAKEN == monsterCard.getMonsterType()) {
-            System.out.println("The Kraken is immune against spells!");
-            monsterWins();
+    private void spellWins() {
+        if (playCardOne instanceof Spell) {
+            System.out.println(playerOne.getUsername() + " won this round!");
+            battleOutcome = BattleOutcome.PLAYER1;
         } else {
-            if (monsterCard.getElementType() != spellCard.getElementType()) {
-                elementFight();
-            } else {
-                System.out.println("Both Cards have the same ElementType! No trumps this round.");
-                noTrumps();
-            }
+            System.out.println(playerTwo.getUsername() + " won this round!");
+            battleOutcome = BattleOutcome.PLAYER2;
         }
-
-    }
-
-    // if elements are not equal
-    private void elementFight() {
-        /*      • water -> fire
-                • fire -> normal
-                • normal -> water
-         */
-        if (ElementType.WATER == playCardOne.getElementType()) {
-            if (ElementType.FIRE == playCardTwo.getElementType()) {
-                System.out.println("Water trumps Fire!");
-                playerOneElementTrump();
-            } else if (ElementType.NORMAL == playCardTwo.getElementType()) {
-                System.out.println("Normal trumps Water!");
-                playerTwoElementTrump();
-            }
-        } else if (ElementType.FIRE == playCardOne.getElementType()) {
-            if (ElementType.NORMAL == playCardTwo.getElementType()) {
-                System.out.println("Fire trumps Normal!");
-                playerOneElementTrump();
-            } else if (ElementType.WATER == playCardTwo.getElementType()) {
-                System.out.println("Water trumps Fire!");
-                playerTwoElementTrump();
-            }
-        } else if (ElementType.NORMAL == playCardOne.getElementType()) {
-            if (ElementType.WATER == playCardTwo.getElementType()) {
-                System.out.println("Normal trumps Water!");
-                playerOneElementTrump();
-            } else if (ElementType.FIRE == playCardTwo.getElementType()) {
-                System.out.println("Fire trumps Normal!");
-                playerTwoElementTrump();
-            }
-        } else {
-            // else equal but is checked before
-            noTrumps();
-        }
-
     }
 
     private void playerOneElementTrump() {
@@ -265,42 +398,5 @@ public class Battle {
             battleOutcome = BattleOutcome.DRAW;
         }
     }
-
-    private void monsterWins() {
-        if (playCardOne instanceof Monster) {
-            System.out.println(playerOne.getUsername() + " won this round!");
-            battleOutcome = BattleOutcome.PLAYER1;
-        } else {
-            System.out.println(playerTwo.getUsername() + " won this round!");
-            battleOutcome = BattleOutcome.PLAYER2;
-        }
-    }
-
-    private void spellWins() {
-        if (playCardOne instanceof Spell) {
-            System.out.println(playerOne.getUsername() + " won this round!");
-            battleOutcome = BattleOutcome.PLAYER1;
-        } else {
-            System.out.println(playerTwo.getUsername() + " won this round!");
-            battleOutcome = BattleOutcome.PLAYER2;
-        }
-    }
-
-    private void proclaimWinner() {
-        switch (battleOutcome) {
-            case DRAW -> {
-                System.out.println("Both players are matched in might and wit! No winners this round!");
-                break;
-            }
-            case PLAYER1 -> {
-                System.out.println(playerOne.getUsername() + " wins! Congratulations!");
-                break;
-            }
-            case PLAYER2 -> {
-                System.out.println(playerTwo.getUsername() + " wins! Congratulations!");
-                break;
-            }
-            default -> throw new IllegalStateException("Unexpected value: " + battleOutcome);
-        }
-    }
+    */
 }
