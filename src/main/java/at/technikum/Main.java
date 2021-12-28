@@ -6,7 +6,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Monster monster1 = new Monster("Water Wizzrad", 15, ElementType.WATER, MonsterType.WIZZARD);
+        Monster monster1 = new Monster("Water Wizzard", 15, ElementType.WATER, MonsterType.WIZZARD);
         Monster monster2 = new Monster("Fire Dragon", 25, ElementType.FIRE, MonsterType.DRAGON);
         Monster monster3 = new Monster("Dumb Goblin", 10, ElementType.NORMAL, MonsterType.GOBLIN);
         Monster monster4 = new Monster("Misguided Knight", 15, ElementType.NORMAL, MonsterType.KNIGHT);
@@ -40,17 +40,24 @@ public class Main {
         stack2.addToDeck(spell1);
         stack2.addToDeck(spell2);
 
-        //player1.getCardStack().printStack();
-        //player2.getCardStack().printStack();
+        System.out.println("PLAyer1");
+        player1.getCardStack().printStack();
+        System.out.println("PLAyer2");
+        player2.getCardStack().printStack();
 
         Battle battle1 = new Battle(player1, player2);
+        battle1.start();
         //Battle battle1 = new Battle(null, player2);
 
         //System.out.println("Deck player1:");
-        //player1.getCardStack().printDeck();
+        System.out.println("PLAyer1");
+        player1.getCardStack().printDeck();
         //System.out.println("Deck player2:");
-        //player2.getCardStack().printDeck();
+        System.out.println("PLAyer2");
+        player2.getCardStack().printDeck();
 
+        //System.out.println(monster1.toString());
+        //System.out.println(spell1.toString());
 
 
     }

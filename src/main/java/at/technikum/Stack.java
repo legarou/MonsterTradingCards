@@ -12,11 +12,11 @@ public class Stack {
     }
 
     public ArrayList<Card> getStack() {
-        return stack;
+        return new ArrayList<>(stack);
     }
 
     public ArrayList<Card> getDeck() {
-        return deck;
+        return new ArrayList<>(deck);
     }
 
     public void addCardToStack(Card newCard) {
@@ -24,20 +24,15 @@ public class Stack {
     }
 
     public void addToDeck(Card newCard) {
-        if (!newCard.getIsInDeck()) {
+        if (!deck.contains(newCard) && stack.contains(newCard)) {
             deck.add(newCard);
-            newCard.changeIsInDeck();
         } else {
             System.out.println("Card is already in deck!");
         }
-
     }
 
     public void removeFromDeck(Card oldCard) {
-        if (oldCard.getIsInDeck()) {
-            deck.remove(oldCard);
-            oldCard.changeIsInDeck();
-        }
+        deck.remove(oldCard);
     }
 
     public void printStack() {
@@ -47,12 +42,8 @@ public class Stack {
     }
 
     public void printDeck() {
-        if (deck.size() != 0) {
-            for (Card i : deck) {
-                System.out.println("Card: " + i.getName());
-            }
-        } else {
-            System.out.println("Deck is empty!");
+        for (Card i : deck) {
+            System.out.println("Card: " + i.getName());
         }
     }
 }

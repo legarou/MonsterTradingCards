@@ -2,7 +2,7 @@ package at.technikum;
 
 public class User {
     private String username;
-    private Integer coins;
+    private int coins;
     private Stack cardStack;
 
 
@@ -16,7 +16,7 @@ public class User {
         return username;
     }
 
-    public Integer getCoins() {
+    public int getCoins() {
         return coins;
     }
 

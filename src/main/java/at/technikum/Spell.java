@@ -4,6 +4,10 @@ public class Spell extends Card {
 
     protected Spell(String name, Integer damage, ElementType elementType) {
         super(name, damage, elementType);
-        setDescription("Spell Card: " + getDescription());
+    }
+
+    @Override
+    public String toString() {
+        return "Spell Card: " + super.toString();
     }
 }
