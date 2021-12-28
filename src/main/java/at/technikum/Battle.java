@@ -1,8 +1,5 @@
 package at.technikum;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -18,7 +15,7 @@ public class Battle {
 
     // Constructor
     // does a max. of 100 rounds of one-on-one fights
-    public Battle(@NotNull User userOne, @NotNull User userTwo) {
+    public Battle(User userOne, User userTwo) {
         this.playerOne = userOne.getUsername();
         //this.deckOne = new ArrayList<Card>(userOne.getCardStack().getDeck());
         this.deckOne = userOne.getCardStack().getDeck();
@@ -291,7 +288,7 @@ public class Battle {
     }
 
     // returns random number between 0 and deck.size()-1
-    private Card returnRandom(@NotNull List<Card> deck) {
+    private Card returnRandom(List<Card> deck) {
         int randNum = ThreadLocalRandom.current().nextInt(0, deck.size());
         return deck.get(randNum);
     }
