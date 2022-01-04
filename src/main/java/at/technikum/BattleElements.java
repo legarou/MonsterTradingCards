@@ -1,18 +1,18 @@
 package at.technikum;
 
 public class BattleElements {
-    private Card cardOne;
-    private Card cardTwo;
+    private CardElementType cardOne;
+    private CardElementType cardTwo;
     private String message;
 
-    public BattleElements(Card userOne, Card userTwo) {
+    public BattleElements(CardElementType userOne, CardElementType userTwo) {
         this.cardOne = userOne;
         this.cardTwo = userTwo;
         this.message = "";
     }
 
     public void switchCards() {
-        Card temp = cardOne;
+        CardElementType temp = cardOne;
         cardOne = cardTwo;
         cardTwo = temp;
     }
@@ -30,32 +30,32 @@ public class BattleElements {
                 • normal -> water
          */
 
-        if(cardOne.getElementType() == cardTwo.getElementType()) {
+        if(cardOne == cardTwo) {
             return 0;
         }
-        else if (CardElementType.WATER == cardOne.getElementType()) {
-            if (CardElementType.FIRE == cardTwo.getElementType()) {
+        else if (CardElementType.WATER == cardOne) {
+            if (CardElementType.FIRE == cardTwo) {
                 message = "Water trumps Fire!\n";
                 return  1;
-            } else if (CardElementType.NORMAL == cardTwo.getElementType()) {
+            } else if (CardElementType.NORMAL == cardTwo) {
                 message = "Normal trumps Water!\n";
                 return 2;
             }
         }
-        else if (CardElementType.FIRE == cardOne.getElementType()) {
-            if (CardElementType.NORMAL == cardTwo.getElementType()) {
+        else if (CardElementType.FIRE == cardOne) {
+            if (CardElementType.NORMAL == cardTwo) {
                 message = "Fire trumps Normal!\n";
                 return 1;
-            } else if (CardElementType.WATER == cardTwo.getElementType()) {
+            } else if (CardElementType.WATER == cardTwo) {
                 message = "Water trumps Fire!\n";
                 return 2;
             }
         }
-        else if (CardElementType.NORMAL == cardOne.getElementType()) {
-            if (CardElementType.WATER == cardTwo.getElementType()) {
+        else if (CardElementType.NORMAL == cardOne) {
+            if (CardElementType.WATER == cardTwo) {
                 message = "Normal trumps Water!\n";
                 return 1;
-            } else if (CardElementType.FIRE == cardTwo.getElementType()) {
+            } else if (CardElementType.FIRE == cardTwo) {
                 message = "Fire trumps Normal!\n";
                 return 2;
             }

@@ -24,7 +24,7 @@ public class Battle {
         this.battleOutcome = BattleOutcome.DRAW;
     }
 
-    public void start() {
+    public boolean start() {
         if (deckOne.size() == 4 && deckTwo.size() == 4) {
             System.out.println(playerOne + " VS " + playerTwo);
 
@@ -35,13 +35,15 @@ public class Battle {
                 roundCounter++;
             }
             proclaimWinner();
+            return true;
         } else {
             System.out.println("At least one of the decks has the wrong size! Battle cannot commence.");
+            return false;
         }
     }
 
     // executes the fight between two random cards from each deck
-    private void oneRoundFight() {
+    private BattleOutcome oneRoundFight() {
         playCardOne = returnRandom(deckOne);
         playCardTwo = returnRandom(deckTwo);
         int specialCasesResult;
@@ -51,30 +53,24 @@ public class Battle {
         System.out.println(playerTwo + " plays: " + playCardTwo.getName());
         System.out.println(playCardTwo.toString());
 
-        BattleSpecialCases checkCases = new BattleSpecialCases(playCardOne, playCardTwo);
+        BattleSpecialCases checkCases = new BattleSpecialCases(playCardOne.getMonsterType(), playCardOne.getElementType(), playCardTwo.getMonsterType(), playCardTwo.getElementType());
         specialCasesResult = checkCases.checkForSpecialCase();
 
         switch(specialCasesResult) {
             case 0:
-            case 3:
-                // no special case
                 elementFight();
                 break;
             case 1:
-            case 5:
-                // player 1
                 System.out.println(checkCases.getMessage());
                 System.out.println(playerOne + " won this round!");
                 battleOutcome = BattleOutcome.PLAYER1;
                 break;
             case 2:
-            case 4:
-                // player 2
                 System.out.println(checkCases.getMessage());
                 System.out.println(playerTwo + " won this round!");
                 battleOutcome = BattleOutcome.PLAYER2;
                 break;
-            case 6:
+            case 3:
                 System.out.println("Both players played a Monster card! Element type will have no effect during this round.\nThis will be a pure fight of power!");
                 battleOutcome = BattleOutcome.DRAW;
                 cardFight();
@@ -82,13 +78,14 @@ public class Battle {
             default:
                 throw new IllegalStateException("Unexpected value: " + specialCasesResult);
         }
+        return battleOutcome;
     }
 
     // if elements are not equal
-    public void elementFight() {
+    public BattleOutcome elementFight() {
 
         int elementTrumpResult;
-        BattleElements checkElementTrump = new BattleElements(playCardOne, playCardTwo);
+        BattleElements checkElementTrump = new BattleElements(playCardOne.getElementType(), playCardTwo.getElementType());
         elementTrumpResult = checkElementTrump.checkForTrump();
 
         switch(elementTrumpResult) {
@@ -96,12 +93,10 @@ public class Battle {
                 battleOutcome = BattleOutcome.DRAW;
                 break;
             case 1:
-                // player 1
                 System.out.println(checkElementTrump.getMessage());
                 battleOutcome = BattleOutcome.PLAYER1;
                 break;
             case 2:
-                // player 2
                 System.out.println(checkElementTrump.getMessage());
                 battleOutcome = BattleOutcome.PLAYER2;
                 break;
@@ -110,10 +105,10 @@ public class Battle {
         }
 
         cardFight();
-
+        return battleOutcome;
     }
 
-    private void cardFight() {
+    private BattleOutcome cardFight() {
         int playerOnePower;
         int playerTwoPower;
 
@@ -147,6 +142,8 @@ public class Battle {
         } else {
             battleOutcome = BattleOutcome.DRAW;
         }
+
+        return battleOutcome;
 
     }
 

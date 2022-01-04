@@ -6,7 +6,7 @@ public class Card {
     private final CardElementType elementType;
     private final CardMonsterType cardMonsterType;
 
-    protected Card(String name, Integer damage, CardElementType elementType, CardMonsterType cardMonsterType) {
+    public Card(String name, Integer damage, CardElementType elementType, CardMonsterType cardMonsterType) {
         this.name = name;
         this.damage = damage;
         this.elementType = elementType;

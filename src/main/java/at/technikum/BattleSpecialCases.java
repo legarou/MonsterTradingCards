@@ -2,14 +2,18 @@ package at.technikum;
 
 public class BattleSpecialCases {
 
-    private Card cardOne;
-    private Card cardTwo;
+    private CardMonsterType cardOneMonster;
+    private CardMonsterType cardTwoMonster;
+    private CardElementType cardOneElement;
+    private CardElementType cardTwoElement;
     private String message;
     private int result;
 
-    public BattleSpecialCases(Card userOne, Card userTwo) {
-        this.cardOne = userOne;
-        this.cardTwo = userTwo;
+    public BattleSpecialCases(CardMonsterType userOneMonster, CardElementType userOneElement, CardMonsterType userTwoMonster, CardElementType userTwoElement) {
+        this.cardOneMonster = userOneMonster;
+        this.cardTwoMonster = userTwoMonster;
+        this.cardOneElement = userOneElement;
+        this.cardTwoElement = userTwoElement;
         this.message = "";
         this.result = -1;
     }
@@ -19,33 +23,36 @@ public class BattleSpecialCases {
     }
 
     public void switchCards() {
-        Card temp = cardOne;
-        cardOne = cardTwo;
-        cardTwo = temp;
+        CardMonsterType temp = cardOneMonster;
+        cardOneMonster = cardTwoMonster;
+        cardTwoMonster = temp;
+
+        CardElementType temp2 = cardOneElement;
+        cardOneElement = cardTwoElement;
+        cardTwoElement = temp2;
     }
 
-    // 0 = 3 -> nothing
-    // 1 != 4
+    // 0 -> nothing
     // 1 -> player One wins
-    // 4 -> player Two wins
-    // 2 != 5
     // 2 -> player Two wins
-    // 5 -> player One wins
-    // 6 -> both are monsters with no special case
+    // 3 -> both are monsters with no special case
     public int checkForSpecialCase() {
-        if(CardMonsterType.SPELL == cardOne.getMonsterType() && CardMonsterType.SPELL == cardTwo.getMonsterType()){
+        if((CardMonsterType.SPELL == cardOneMonster) && (CardMonsterType.SPELL == cardTwoMonster)){
             return 0;
         }
-        else if(CardMonsterType.SPELL != cardOne.getMonsterType() && CardMonsterType.SPELL != cardTwo.getMonsterType()){
+        else if((cardOneMonster == cardTwoMonster)) {
+            return 3;
+        }
+        else if((CardMonsterType.SPELL != cardOneMonster) && (CardMonsterType.SPELL != cardTwoMonster)){
             result = twoMonsters();
             if(result == 0) {
                 switchCards();
                 result = twoMonsters();
                 if(result == 0){
-                    return 6;
+                    return 3;
                 }
                 else {
-                    return result + 3;
+                    return (result == 1) ? 2 : 1;
                 }
             }
         }
@@ -53,7 +60,10 @@ public class BattleSpecialCases {
             result = spellAndMonster();
             if(result == 0){
                 switchCards();
-                return spellAndMonster() + 3;
+                result = spellAndMonster();
+                if(result != 0){
+                    return (result == 1) ? 2 : 1;
+                }
             }
             else {
                 return result;
@@ -68,21 +78,18 @@ public class BattleSpecialCases {
               • Wizzard can control Orks so they are not able to damage them.
               • The FireElves know Dragons since they were little and can evade their attacks.
         */
-        if(cardOne.getMonsterType() == cardTwo.getMonsterType()) {
-            return 6;
-        }
-        else if (CardMonsterType.DRAGON == cardOne.getMonsterType()) {
-            if (CardMonsterType.GOBLIN == cardTwo.getMonsterType()) {
+        if (CardMonsterType.DRAGON == cardOneMonster) {
+            if (CardMonsterType.GOBLIN == cardTwoMonster) {
                 message = "Goblins are too afraid of Dragons to attack!\n";
                 return 1;
-            } else if (CardMonsterType.FIREELF == cardTwo.getMonsterType()) {
+            } else if (CardMonsterType.FIREELF == cardTwoMonster) {
                 message = "The FireElves know Dragons since they were little and can evade their attacks.\n";
                 return 2;
             } else {
                 return 0;
             }
         }
-        else if (CardMonsterType.WIZZARD == cardOne.getMonsterType() && CardMonsterType.ORK == cardTwo.getMonsterType()) {
+        else if (CardMonsterType.WIZZARD == cardOneMonster && CardMonsterType.ORK == cardTwoMonster) {
             message = "Wizzards can control Orks! Orks are unable to attack or defend themselves.\n";
             return 1;
         }
@@ -92,17 +99,17 @@ public class BattleSpecialCases {
 
     }
 
-    private int spellAndMonster() {
+    public int spellAndMonster() {
         /*    • The armor of Knights is so heavy that WaterSpells make them drown them instantly.
               • The Kraken is immune against spells.
         */
         // player "One" is Spell
-        if(CardMonsterType.SPELL == cardOne.getMonsterType()) {
-            if (CardMonsterType.KRAKEN == cardTwo.getMonsterType()) {
+        if(CardMonsterType.SPELL == cardOneMonster) {
+            if (CardMonsterType.KRAKEN == cardTwoMonster) {
                 message = "The Kraken is immune against spells!\n";
                 return 2;
             }
-            else if (CardElementType.WATER == cardOne.getElementType() && CardMonsterType.KNIGHT == cardTwo.getMonsterType()) {
+            else if ((CardElementType.WATER == cardOneElement) && (CardMonsterType.KNIGHT == cardTwoMonster)) {
                 message = "The Knight's armor is too heavy!! Any WaterSpells make them drown instantly!\n";
                 return 1;
             }
