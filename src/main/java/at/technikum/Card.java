@@ -1,14 +1,16 @@
 package at.technikum;
 
-public abstract class Card {
+public class Card {
     private final String name;
     private final int damage;
-    private final ElementType elementType;
+    private final CardElementType elementType;
+    private final CardMonsterType cardMonsterType;
 
-    protected Card(String name, Integer damage, ElementType elementType) {
+    protected Card(String name, Integer damage, CardElementType elementType, CardMonsterType cardMonsterType) {
         this.name = name;
         this.damage = damage;
         this.elementType = elementType;
+        this.cardMonsterType = cardMonsterType;
     }
 
     public String getName() {
@@ -19,12 +21,22 @@ public abstract class Card {
         return damage;
     }
 
-    public ElementType getElementType() {
+    public CardElementType getElementType() {
         return elementType;
+    }
+
+    public CardMonsterType getMonsterType() {
+        return cardMonsterType;
     }
 
     @Override
     public String toString() {
-        return name + " has " + damage + " damage and is of ElementType " + elementType;
+        if(CardMonsterType.SPELL == cardMonsterType){
+            return "Spell Card: " + name + " has " + damage + " damage and is of ElementType " + elementType;
+        }
+        else {
+            return "Monster Card: " + name + " has " + damage + " damage and is of ElementType " + elementType + " and of MonsterType " + cardMonsterType;
+        }
+
     }
 }

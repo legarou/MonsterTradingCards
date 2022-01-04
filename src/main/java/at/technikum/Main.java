@@ -1,20 +1,18 @@
 package at.technikum;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 public class Main {
 
     public static void main(String[] args) {
 
-        Monster monster1 = new Monster("Water Wizzard", 15, ElementType.WATER, MonsterType.WIZZARD);
-        Monster monster2 = new Monster("Fire Dragon", 25, ElementType.FIRE, MonsterType.DRAGON);
-        Monster monster3 = new Monster("Dumb Goblin", 10, ElementType.NORMAL, MonsterType.GOBLIN);
-        Monster monster4 = new Monster("Misguided Knight", 15, ElementType.NORMAL, MonsterType.KNIGHT);
+        Card monster1 = new Card("Water Wizzard", 15, CardElementType.WATER, CardMonsterType.WIZZARD);
+        Card monster2 = new Card("Fire Dragon", 25, CardElementType.FIRE, CardMonsterType.DRAGON);
+        Card monster3 = new Card("Dumb Goblin", 10, CardElementType.NORMAL, CardMonsterType.GOBLIN);
+        Card monster4 = new Card("Misguided Knight", 15, CardElementType.NORMAL, CardMonsterType.KNIGHT);
 
-        Spell spell1 = new Spell("Water Mirror", 20, ElementType.WATER);
-        Spell spell2 = new Spell("Fireball", 25, ElementType.FIRE);
-        Spell spell3 = new Spell("Rain Arrows", 15, ElementType.NORMAL);
-        Spell spell4 = new Spell("Hellfire", 50, ElementType.FIRE);
+        Card spell1 = new Card("Water Mirror", 20, CardElementType.WATER, CardMonsterType.SPELL);
+        Card spell2 = new Card("Fireball", 25, CardElementType.FIRE, CardMonsterType.SPELL);
+        Card spell3 = new Card("Rain Arrows", 15, CardElementType.NORMAL, CardMonsterType.SPELL);
+        Card spell4 = new Card("Hellfire", 50, CardElementType.FIRE, CardMonsterType.SPELL);
 
         User player1 = new User("Edmund");
         User player2 = new User("Elizabeth");
@@ -40,9 +38,9 @@ public class Main {
         stack2.addToDeck(spell1);
         stack2.addToDeck(spell2);
 
-        System.out.println("PLAyer1");
+        System.out.println("PlAyer1");
         player1.getCardStack().printStack();
-        System.out.println("PLAyer2");
+        System.out.println("PlAyer2");
         player2.getCardStack().printStack();
 
         Battle battle1 = new Battle(player1, player2);
@@ -50,10 +48,10 @@ public class Main {
         //Battle battle1 = new Battle(null, player2);
 
         //System.out.println("Deck player1:");
-        System.out.println("PLAyer1");
+        System.out.println("PlAyer1");
         player1.getCardStack().printDeck();
         //System.out.println("Deck player2:");
-        System.out.println("PLAyer2");
+        System.out.println("PlAyer2");
         player2.getCardStack().printDeck();
 
         //System.out.println(monster1.toString());

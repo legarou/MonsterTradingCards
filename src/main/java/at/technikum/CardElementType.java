@@ -1,5 +1,5 @@
 package at.technikum;
 
-public enum ElementType {
+public enum CardElementType {
     FIRE, WATER, NORMAL
 }
