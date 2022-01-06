@@ -1,62 +1,71 @@
 package at.technikum;
 
+import at.technikum.Cards.CardElementType;
+import at.technikum.Cards.CardMonsterType;
+import at.technikum.Databank.DBmanager;
+
+import java.util.UUID;
+
 public class Main {
 
     public static void main(String[] args) {
 
-        Card monster1 = new Card("Water Wizzard", 15, CardElementType.WATER, CardMonsterType.WIZZARD);
-        Card monster2 = new Card("Fire Dragon", 25, CardElementType.FIRE, CardMonsterType.DRAGON);
-        Card monster3 = new Card("Dumb Goblin", 10, CardElementType.NORMAL, CardMonsterType.GOBLIN);
-        Card monster4 = new Card("Misguided Knight", 15, CardElementType.NORMAL, CardMonsterType.KNIGHT);
+        UUID cardID1 = UUID.fromString("845f0dc7-37d0-426e-994e-43fc3ac83c08");
+        UUID cardID2 = UUID.fromString("845f0dc7-37d0-426e-994e-43fc3ac83c56");
+        UUID cardID3 = UUID.fromString("845f0dc7-37d0-426e-994e-43fc3ac83c34");
+        UUID cardID4 = UUID.fromString("845f0dc7-37d0-426e-994e-43fc3ac83c00");
+        UUID cardID5 = UUID.fromString("845f0dc7-37d0-426e-994e-43fc3ac83c99");
+        UUID cardID6 = UUID.fromString("845f0dc7-37d0-426e-994e-43fc3ac83c09");
+        UUID cardID7 = UUID.fromString("845f0dc7-37d0-426e-994e-43fc3ac83c14");
+        UUID storeID = UUID.fromString("845f0dc7-37d0-347e-994e-43fc3ac83c14");
 
-        Card spell1 = new Card("Water Mirror", 20, CardElementType.WATER, CardMonsterType.SPELL);
-        Card spell2 = new Card("Fireball", 25, CardElementType.FIRE, CardMonsterType.SPELL);
-        Card spell3 = new Card("Rain Arrows", 15, CardElementType.NORMAL, CardMonsterType.SPELL);
-        Card spell4 = new Card("Hellfire", 50, CardElementType.FIRE, CardMonsterType.SPELL);
+        DBmanager dbManager = new DBmanager();
+        //dbManager.insertUser("Matilda", "test123");
+        //dbManager.insertUser("Christina", "test123");
+        //dbManager.insertUser("Sarah", "test123");
+        //dbManager.insertUser("Elena", "test123");
+        //dbManager.insertUser("Helene", "test123");
 
-        User player1 = new User("Edmund");
-        User player2 = new User("Elizabeth");
+        dbManager.selectUser("Matilda");
 
-        Stack stack1 = player1.getCardStack();
-        Stack stack2 = player2.getCardStack();
+        /*
+        System.out.println("insertCard ");
+        dbManager.insertCard(cardID1,"Water Wizzard", 15, "CWATER", "WIZZARD");
+        dbManager.insertCard(cardID2, "Water Wizzard", 15, "CWATER", "WIZZARD");
+        dbManager.insertCard(cardID3, "Water Wizzard", 15, "CWATER", "WIZZARD");
+        dbManager.insertCard(cardID4, "Water Wizzard", 15, "CWATER", "WIZZARD");
+        dbManager.insertCard(cardID5, "Water Wizzard", 15, "CWATER", "WIZZARD");
+        dbManager.insertCard(cardID6, "Water Wizzard", 15, "CWATER", "WIZZARD");
+        dbManager.insertCard(cardID7, "Water Wizzard", 15, "CWATER", "WIZZARD");
+         */
 
-        stack1.addCardToStack(monster1);
-        stack1.addCardToStack(monster3);
-        stack1.addCardToStack(spell4);
-        stack1.addCardToStack(spell3);
-        stack1.addToDeck(monster1);
-        stack1.addToDeck(monster3);
-        stack1.addToDeck(spell4);
-        stack1.addToDeck(spell3);
+        System.out.println("selectCard ");
+        dbManager.selectCard(cardID7);
+        System.out.println("updateCardOwner 2x ");
+        dbManager.updateCardOwner(cardID6, "Matilda");
+        dbManager.updateCardOwner(cardID7, "Matilda");
 
-        stack2.addCardToStack(monster2);
-        stack2.addCardToStack(monster4);
-        stack2.addCardToStack(spell1);
-        stack2.addCardToStack(spell2);
-        stack2.addToDeck(monster2);
-        stack2.addToDeck(monster4);
-        stack2.addToDeck(spell1);
-        stack2.addToDeck(spell2);
+        //System.out.println("insertCardIntoStore");
+        //dbManager.insertCardIntoStore(storeID, cardID1, "Spell", null, 60);
+        System.out.println("selectCardFromStore");
+        dbManager.selectCardFromStore(storeID);
 
-        System.out.println("PlAyer1");
-        player1.getCardStack().printStack();
-        System.out.println("PlAyer2");
-        player2.getCardStack().printStack();
+        System.out.println("selectPackage");
+        //dbManager.insertPackage(cardID1, cardID2, cardID3, cardID4, cardID5);
+        dbManager.selectPackage(0);
 
-        Battle battle1 = new Battle(player1, player2);
-        battle1.start();
-        //Battle battle1 = new Battle(null, player2);
+        System.out.println("selectFullStack ");
+        dbManager.selectFullStack("Matilda");
 
-        //System.out.println("Deck player1:");
-        System.out.println("PlAyer1");
-        player1.getCardStack().printDeck();
-        //System.out.println("Deck player2:");
-        System.out.println("PlAyer2");
-        player2.getCardStack().printDeck();
+        System.out.println("insertIntoDeck and select ");
+        dbManager.insertIntoDeck(cardID6);
+        dbManager.selectDeck("Matilda");
 
-        //System.out.println(monster1.toString());
-        //System.out.println(spell1.toString());
+        System.out.println("removeFromDeck and select ");
+        //dbManager.removeFromDeck(cardID6);
+        //dbManager.selectDeck("Matilda");
 
-
+        System.out.println("selectScoreboard ");
+        dbManager.selectScoreboard();
     }
 }
