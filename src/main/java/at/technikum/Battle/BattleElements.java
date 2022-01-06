@@ -1,4 +1,6 @@
-package at.technikum;
+package at.technikum.Battle;
+
+import at.technikum.Cards.CardElementType;
 
 public class BattleElements {
     private CardElementType cardOne;

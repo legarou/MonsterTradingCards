@@ -1,4 +1,6 @@
-package at.technikum;
+package at.technikum.User;
+
+import at.technikum.Cards.Card;
 
 import java.util.ArrayList;
 

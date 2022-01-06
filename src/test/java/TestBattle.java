@@ -1,4 +1,9 @@
-import at.technikum.*;
+import at.technikum.Battle.Battle;
+import at.technikum.Cards.Card;
+import at.technikum.Cards.CardElementType;
+import at.technikum.Cards.CardMonsterType;
+import at.technikum.User.Stack;
+import at.technikum.User.User;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -11,6 +16,8 @@ import java.util.stream.Stream;
 public class TestBattle {
 
     private Battle battleClass;
+
+    //MOCKITO PAGE 11 !!
 
     @BeforeAll
     static void initAll() {

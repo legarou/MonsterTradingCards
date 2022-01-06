@@ -1,4 +1,7 @@
-package at.technikum;
+package at.technikum.Battle;
+
+import at.technikum.Cards.CardElementType;
+import at.technikum.Cards.CardMonsterType;
 
 public class BattleSpecialCases {
 

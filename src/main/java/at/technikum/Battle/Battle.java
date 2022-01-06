@@ -1,4 +1,7 @@
-package at.technikum;
+package at.technikum.Battle;
+
+import at.technikum.Cards.Card;
+import at.technikum.User.User;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;

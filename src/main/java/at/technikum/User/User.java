@@ -1,4 +1,4 @@
-package at.technikum;
+package at.technikum.User;
 
 public class User {
     private String username;

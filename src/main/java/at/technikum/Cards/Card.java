@@ -1,4 +1,4 @@
-package at.technikum;
+package at.technikum.Cards;
 
 public class Card {
     private final String name;

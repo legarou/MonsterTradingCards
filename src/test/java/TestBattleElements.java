@@ -1,7 +1,5 @@
-import at.technikum.BattleElements;
-import at.technikum.Card;
-import at.technikum.CardElementType;
-import at.technikum.CardMonsterType;
+import at.technikum.Battle.BattleElements;
+import at.technikum.Cards.CardElementType;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
