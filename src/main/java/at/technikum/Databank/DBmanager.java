@@ -26,7 +26,6 @@ public class DBmanager {
     }
 
     public HashMap selectUser(String username) {
-        ResultSet resultSet;
         try(Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/MonsterCardGame", "swe1user", "swe1pw");
             PreparedStatement statement = connection.prepareStatement("""
                 SELECT * FROM "MonsterCardGame".public."User"
@@ -34,12 +33,12 @@ public class DBmanager {
             """)
         ) {
             statement.setString(1, username);
-            resultSet = statement.executeQuery();
+            ResultSet resultSet = statement.executeQuery();
+            return convertToHashtable(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
-        return convertToHashtable(resultSet);
     }
 
     public boolean insertCard(UUID cardID, String name, int damage, String elementType, String monsterType) {
@@ -64,7 +63,6 @@ public class DBmanager {
     }
 
     public HashMap selectCard(UUID cardID) {
-        ResultSet resultSet;
         try(Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/MonsterCardGame", "swe1user", "swe1pw");
             PreparedStatement statement = connection.prepareStatement("""
                 SELECT * FROM "MonsterCardGame".public."Card"
@@ -72,12 +70,13 @@ public class DBmanager {
             """)
         ) {
             statement.setString(1, cardID.toString());
-            resultSet = statement.executeQuery();
+            ResultSet resultSet = statement.executeQuery();
+            return convertToHashtable(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
-        return convertToHashtable(resultSet);
+
     }
 
     public boolean updateCardOwner(UUID cardID, String newOwner) {
@@ -120,7 +119,6 @@ public class DBmanager {
     }
 
     public HashMap selectCardFromStore(UUID storeID) {
-        ResultSet resultSet;
         try(Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/MonsterCardGame", "swe1user", "swe1pw");
             PreparedStatement statement = connection.prepareStatement("""
                 SELECT * FROM "MonsterCardGame".public."Store"
@@ -128,13 +126,12 @@ public class DBmanager {
             """)
         ) {
             statement.setString(1, storeID.toString());
-            resultSet = statement.executeQuery();
-            logDB(resultSet);
+            ResultSet resultSet = statement.executeQuery();
+            return convertToHashtable(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
-        return convertToHashtable(resultSet);
     }
 
     public boolean insertPackage(UUID cardID1, UUID cardID2, UUID cardID3, UUID cardID4, UUID cardID5) {
@@ -159,7 +156,6 @@ public class DBmanager {
     }
 
     public HashMap selectPackage(int packageID) {
-        ResultSet resultSet;
         try(Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/MonsterCardGame", "swe1user", "swe1pw");
             PreparedStatement statement = connection.prepareStatement("""
                 SELECT * FROM "MonsterCardGame".public."Package"
@@ -167,12 +163,12 @@ public class DBmanager {
             """)
         ) {
             statement.setInt(1, packageID);
-            resultSet = statement.executeQuery();
+            ResultSet resultSet = statement.executeQuery();
+            return convertToHashtable(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
-        return convertToHashtable(resultSet);
     }
 
     public boolean selectFullStack(String username) {
@@ -285,18 +281,21 @@ public class DBmanager {
     }
 
     public HashMap convertToHashtable(ResultSet resultSet) {
-        HashMap<String, Object> hashMap;
         try {
             ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
             int columnsNumber = resultSetMetaData.getColumnCount();
-            hashMap = new HashMap<String, Object>();
-            for (int i = 1; i <= columnsNumber; i++) {
-                hashMap.put(resultSetMetaData.getColumnName(i), resultSet.getString(i));
+            HashMap<String, Object> hashMap = new HashMap<String, Object>();
+            while (resultSet.next()) {
+                for (int i = 1; i <= columnsNumber; i++) {
+                    hashMap.put(resultSetMetaData.getColumnName(i), resultSet.getString(i));
+                }
             }
+            //System.out.println("Hashmap:");
+            //System.out.println(hashMap);
+            return hashMap;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
-        return hashMap;
     }
 }
