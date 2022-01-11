@@ -28,6 +28,8 @@ public class SocketHandler extends Thread {
     public void run()  {
         try {
             final String httpMethodWithPath = bufferedReader.readLine();
+            if((httpMethodWithPath == null) || httpMethodWithPath.isEmpty())
+                return;
             System.out.println(httpMethodWithPath);
 
             while (bufferedReader.ready()) {
@@ -41,14 +43,13 @@ public class SocketHandler extends Thread {
             headerReader.print();
             System.out.println("In thread: " + Thread.currentThread().getName());
 
+            char[] charBuffer = new char[headerReader.getContentLength()];
             if (headerReader.getContentLength() > 0) {
-                char[] charBuffer = new char[headerReader.getContentLength()];
                 bufferedReader.read(charBuffer, 0, headerReader.getContentLength());
-
-                final UserDto userDto = objectMapper.readValue(new String(charBuffer), UserDto.class);
-
-                responseHandler.reply(userDto);
             }
+            QueryHandler queryHandler = new QueryHandler(httpMethodWithPath, new String(charBuffer));
+            queryHandler.findQuery();
+            responseHandler.reply(queryHandler.getResponseObject());
             responseHandler.reply();
         } catch (Exception e) {
             System.err.println(e);

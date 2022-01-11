@@ -10,7 +10,9 @@ public class DBwrapper {
     DBmanager manager = new DBmanager();
 
     public boolean insertUser(String username, String password) {
-
+        if(username.isEmpty() || password.isEmpty()) {
+            return false;
+        }
         return manager.insertUser(username, password);
     }
 

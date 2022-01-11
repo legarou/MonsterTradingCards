@@ -12,7 +12,7 @@ public class ServerMain {
 
         final ExecutorService executorService = Executors.newFixedThreadPool(10);
 
-        try(ServerSocket serverSocket = new ServerSocket(8080, 5)) {
+        try(ServerSocket serverSocket = new ServerSocket(10001, 5)) {
             while(true) {
                 final Socket clientConnection = serverSocket.accept();
 

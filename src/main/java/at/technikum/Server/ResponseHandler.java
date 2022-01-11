@@ -15,10 +15,10 @@ public class ResponseHandler {
         this.bufferedWriter = bufferedWriter;
     }
 
-    public void reply(Object object) {
+    public void reply(ResponseObject object) {
         try {
             final String output = objectMapper.writeValueAsString(object);
-            bufferedWriter.write("HTTP/1.1 200 OK" + LINE_END);
+            bufferedWriter.write("HTTP/1.1 "+object.getStatus() + LINE_END);
             bufferedWriter.write("SERVER.Server: Java Server example" + LINE_END);
             bufferedWriter.write("Content-Type: application/json" + LINE_END);
             bufferedWriter.write("Connection: close" + LINE_END);
