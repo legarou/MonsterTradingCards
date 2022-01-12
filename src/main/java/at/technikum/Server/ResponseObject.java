@@ -11,10 +11,8 @@ public class ResponseObject {
      private String success;
     @JsonProperty(value = "Message")
      private String message;
-    @JsonProperty(value = "Cause")
-     private String cause;
     @JsonProperty(value = "Data")
-     private HashMap data;
+     private HashMap<String, Object> data;
     @Getter
     @JsonIgnore
      private String status;
@@ -23,11 +21,13 @@ public class ResponseObject {
 
      }
 
-     public ResponseObject(String success, String message, String cause, HashMap data, int status) {
+     public ResponseObject(String success, String message, String dataInfo, Object data, int status) {
          this.success = success;
          this.message = message;
-         this.cause = cause;
-         this.data = data;
+         this.data = new HashMap();
+         if(data != null && !dataInfo.isEmpty()) {
+             this.data.put(dataInfo, data);
+         }
          setStatus(status);
      }
 

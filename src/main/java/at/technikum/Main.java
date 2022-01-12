@@ -37,7 +37,7 @@ public class Main {
         dbManager.insertCard(cardID5, "Water Wizzard", 15, "CWATER", "WIZZARD");
         dbManager.insertCard(cardID6, "Water Wizzard", 15, "CWATER", "WIZZARD");
         dbManager.insertCard(cardID7, "Water Wizzard", 15, "CWATER", "WIZZARD");
-         */
+
 
         System.out.println("selectCard ");
         dbManager.selectCard(cardID7);
@@ -65,7 +65,7 @@ public class Main {
         //dbManager.removeFromDeck(cardID6);
         //dbManager.selectDeck("Matilda");
 
-        System.out.println("selectScoreboard ");
+        System.out.println("selectScoreboard ");*/
         dbManager.selectScoreboard();
     }
 }

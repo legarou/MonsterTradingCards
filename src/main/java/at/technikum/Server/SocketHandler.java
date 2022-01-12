@@ -47,7 +47,7 @@ public class SocketHandler extends Thread {
             if (headerReader.getContentLength() > 0) {
                 bufferedReader.read(charBuffer, 0, headerReader.getContentLength());
             }
-            QueryHandler queryHandler = new QueryHandler(httpMethodWithPath, new String(charBuffer));
+            QueryHandler queryHandler = new QueryHandler(httpMethodWithPath, new String(charBuffer), headerReader.getHeader("Authorization"));
             queryHandler.findQuery();
             responseHandler.reply(queryHandler.getResponseObject());
             responseHandler.reply();

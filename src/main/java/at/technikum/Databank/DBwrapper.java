@@ -1,6 +1,7 @@
 package at.technikum.Databank;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -18,6 +19,10 @@ public class DBwrapper {
 
     public HashMap selectUser(String username) {
         return manager.selectUser(username);
+    }
+
+    public boolean updateUser(String username, String name, String bio, String image) {
+        return manager.updateUser(username, name, bio, image);
     }
 
     public boolean insertCard(UUID cardID, String name, int damage, String elementType, String monsterType) {
@@ -63,14 +68,12 @@ public class DBwrapper {
         return manager.selectPackage(packageID);
     }
 
-    public boolean selectFullStack(String username) {
-        // TODO
-        return true;
+    public ArrayList selectFullStack(String username) {
+        return manager.selectFullStack(username);
     }
 
-    public boolean selectDeck(String username) {
-        // TODO
-        return true;
+    public ArrayList selectDeck(String username) {
+        return manager.selectDeck(username);
     }
 
     public boolean insertIntoDeck(UUID cardID) {
@@ -84,8 +87,7 @@ public class DBwrapper {
     }
 
 
-    public boolean selectScoreboard() {
-        // TODO
-        return true;
+    public ArrayList selectScoreboard() {
+        return manager.selectScoreboard();
     }
 }

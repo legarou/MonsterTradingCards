@@ -1,6 +1,7 @@
 package at.technikum.Databank;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -38,6 +39,26 @@ public class DBmanager {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public boolean updateUser(String username, String name, String bio, String image) {
+        try(Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/MonsterCardGame", "swe1user", "swe1pw");
+            PreparedStatement statement = connection.prepareStatement("""
+                UPDATE "MonsterCardGame".public."User"
+                SET bio = ?, name = ?, image = ?
+                WHERE username = ?;
+            """)
+        ) {
+            statement.setString(1, bio);
+            statement.setString(2, name);
+            statement.setString(3, image);
+            statement.setString(4, username);
+            statement.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 
@@ -171,7 +192,7 @@ public class DBmanager {
         }
     }
 
-    public boolean selectFullStack(String username) {
+    public ArrayList selectFullStack(String username) {
         try(Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/MonsterCardGame", "swe1user", "swe1pw");
             PreparedStatement statement = connection.prepareStatement("""
                 SELECT * FROM "MonsterCardGame".public."Card"
@@ -180,15 +201,14 @@ public class DBmanager {
         ) {
             statement.setString(1, username);
             ResultSet resultSet = statement.executeQuery();
-            logDB(resultSet);
+            return convertToList(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
-        return true;
     }
 
-    public boolean selectDeck(String username) {
+    public ArrayList selectDeck(String username) {
         try(Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/MonsterCardGame", "swe1user", "swe1pw");
             PreparedStatement statement = connection.prepareStatement("""
                 SELECT * FROM "MonsterCardGame".public."Card"
@@ -197,12 +217,11 @@ public class DBmanager {
         ) {
             statement.setString(1, username);
             ResultSet resultSet = statement.executeQuery();
-            logDB(resultSet);
+            return convertToList(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
-        return true;
     }
 
     public boolean insertIntoDeck(UUID cardID) {
@@ -241,7 +260,7 @@ public class DBmanager {
     }
 
 
-    public boolean selectScoreboard() {
+    public ArrayList selectScoreboard() {
         try(Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/MonsterCardGame", "swe1user", "swe1pw");
             PreparedStatement statement = connection.prepareStatement("""
                 SELECT username, elo
@@ -250,12 +269,11 @@ public class DBmanager {
             """)
         ) {
             ResultSet resultSet = statement.executeQuery();
-            logDB(resultSet);
+            return convertToList(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
-        return true;
     }
 
     public void logDB(ResultSet resultSet) {
@@ -292,7 +310,34 @@ public class DBmanager {
             }
             //System.out.println("Hashmap:");
             //System.out.println(hashMap);
-            return hashMap;
+            if(hashMap.isEmpty()) {
+                return null;
+            }
+            else {
+                return hashMap;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public ArrayList convertToList(ResultSet resultSet) {
+        try {
+            ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+            int columnsNumber = resultSetMetaData.getColumnCount();
+            ArrayList list = new ArrayList();
+            HashMap<String, Object> hashMap = new HashMap<>();
+            while (resultSet.next()) {
+                for (int i = 1; i <= columnsNumber; i++) {
+                    hashMap.put(resultSetMetaData.getColumnName(i), resultSet.getString(i));
+                }
+                list.add(hashMap);
+                hashMap = new HashMap<>();
+            }
+            //System.out.println("List:");
+            //System.out.println(list);
+            return list;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
