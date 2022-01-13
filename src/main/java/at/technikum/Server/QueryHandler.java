@@ -1,6 +1,5 @@
 package at.technikum.Server;
 
-import at.technikum.Databank.DBmanager;
 import at.technikum.Databank.DBwrapper;
 import at.technikum.User.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -25,7 +24,7 @@ public class QueryHandler {
         this.token = token;
     }
 
-    public void findQuery() {
+    public void processQuery() {
         try {
             final String[] split = httpMethodWithPath.split(" ", 3);
 
@@ -33,32 +32,50 @@ public class QueryHandler {
                 System.out.println(i + ": " + split[i]);
             }
 
-            if(split[1].equals("/users") || split[1].contains("/users")) {
+            System.out.println("at " + split[1]);
+
+            if(split[1].contains("/users")) {
                 userRequest(split[0]);
             }
             else if(split[1].equals("/sessions")) {
-                System.out.println("In seassions query");
                 sessionsRequest(split[0]);
             }
-            else {}
-
-
-            if("POST" == split[0]) {
-
+            else if(split[1].equals("/packages")) {
+                packagesRequest(split[0]);
             }
-            else if("GET" == split[0]) {
-
+            else if(split[1].equals("/transactions/packages")) {
+                transactionsRequest(split[0]);
             }
-            else if("PUT" == split[0]) {
-
+            else if(split[1].equals("/cards")) {
+                cardsRequest(split[0]);
             }
-            else if("DELETE" == split[0]) {
-
+            else if(split[1].contains("/deck")) {
+                deckRequest(split[0]);
             }
+            else if(split[1].equals("/battles")) {
+                battlesRequest(split[0]);
+            }
+            else if(split[1].contains("/tradings")) {
+                tradingsRequest(split[0]);
+            }
+            else if(split[1].equals("/stats")) {
+                statsRequest(split[0]);
+            }
+            else if(split[1].equals("/score")) {
+                scoreRequest(split[0]);
+            }
+            else {
+                responseObject = new ResponseObject("failure", "Method not allowed", "", null, 405);
+                return;
+            }
+
         }
         catch(JsonProcessingException ex) {
             ex.printStackTrace();
         }
+
+        responseObject = new ResponseObject("failure", "Something went wrong", "", null, 400);
+        return;
 
 
     }
@@ -153,5 +170,190 @@ public class QueryHandler {
         }
     }
 
+    public void packagesRequest(String request) throws JsonProcessingException {
+        if(request.equals("POST")) {
+            if(buffer == null || buffer.isEmpty()) {
+                return;
+            }
+            // admin
+            // TODO
+            if(false) {
+                responseObject = new ResponseObject("success", "XXX", "Authorization", token, 200);
+                return;
+            }
+            else {
+                responseObject = new ResponseObject("failure", "XXX", "", null, 400);
+                return;
+            }
+        }
+        else {
+            responseObject = new ResponseObject("failure", "Method not allowed", "", null, 405);
+            return;
+        }
+    }
+
+    public void transactionsRequest(String request) throws JsonProcessingException {
+        if(request.equals("POST")) {
+            if(buffer == null || buffer.isEmpty()) {
+                return;
+            }
+            // user name
+            // TODO
+            if(false) {
+                responseObject = new ResponseObject("success", "XXX", "Authorization", token, 200);
+                return;
+            }
+            else {
+                responseObject = new ResponseObject("failure", "XXX", "", null, 400);
+                return;
+            }
+        }
+        else {
+            responseObject = new ResponseObject("failure", "Method not allowed", "", null, 405);
+            return;
+        }
+    }
+
+    public void cardsRequest(String request) throws JsonProcessingException {
+        if(request.equals("GET")) {
+            if(buffer == null || buffer.isEmpty()) {
+                return;
+            }
+            // TODO
+            if(false) {
+                responseObject = new ResponseObject("success", "XXX", "Authorization", token, 200);
+                return;
+            }
+            else {
+                responseObject = new ResponseObject("failure", "XXX", "", null, 400);
+                return;
+            }
+        }
+        else {
+            responseObject = new ResponseObject("failure", "Method not allowed", "", null, 405);
+            return;
+        }
+    }
+
+    public void deckRequest(String request) throws JsonProcessingException {
+        // could have id ?? or name or sth but SPECIAL CASE
+
+        if(request.equals("GET")) {
+            if(buffer == null || buffer.isEmpty()) {
+                return;
+            }
+            // TODO
+            if(false) {
+                responseObject = new ResponseObject("success", "XXX", "Authorization", token, 200);
+                return;
+            }
+            else {
+                responseObject = new ResponseObject("failure", "XXX", "", null, 400);
+                return;
+            }
+        }
+        else if(request.equals("PUT")) {
+            if(buffer == null || buffer.isEmpty()) {
+                return;
+            }
+            // TODO
+            if(false) {
+                responseObject = new ResponseObject("success", "XXX", "Authorization", token, 200);
+                return;
+            }
+            else {
+                responseObject = new ResponseObject("failure", "XXX", "", null, 400);
+                return;
+            }
+        }
+        else {
+            responseObject = new ResponseObject("failure", "Method not allowed", "", null, 405);
+            return;
+        }
+    }
+
+    public void statsRequest(String request) throws JsonProcessingException {
+        if(request.equals("GET")) {
+            if(buffer == null || buffer.isEmpty()) {
+                return;
+            }
+            // TODO
+            if(false) {
+                responseObject = new ResponseObject("success", "XXX", "Authorization", token, 200);
+                return;
+            }
+            else {
+                responseObject = new ResponseObject("failure", "XXX", "", null, 400);
+                return;
+            }
+        }
+        else {
+            responseObject = new ResponseObject("failure", "Method not allowed", "", null, 405);
+            return;
+        }
+    }
+
+    public void scoreRequest(String request) throws JsonProcessingException {
+        if(request.equals("GET")) {
+            if(buffer == null || buffer.isEmpty()) {
+                return;
+            }
+            // TODO
+            if(false) {
+                responseObject = new ResponseObject("success", "XXX", "Authorization", token, 200);
+                return;
+            }
+            else {
+                responseObject = new ResponseObject("failure", "XXX", "", null, 400);
+                return;
+            }
+        }
+        else {
+            responseObject = new ResponseObject("failure", "Method not allowed", "", null, 405);
+            return;
+        }
+    }
+
+    public void tradingsRequest(String request) throws JsonProcessingException {
+        if(request.equals("GET")) {
+            if(buffer == null || buffer.isEmpty()) {
+                return;
+            }
+            // TODO
+            if(false) {
+                responseObject = new ResponseObject("success", "XXX", "Authorization", token, 200);
+                return;
+            }
+            else {
+                responseObject = new ResponseObject("failure", "XXX", "", null, 400);
+                return;
+            }
+        }
+        else {
+            responseObject = new ResponseObject("failure", "Method not allowed", "", null, 405);
+            return;
+        }
+    }
+
+    public void battlesRequest(String request) throws JsonProcessingException {
+        if(request.equals("POST")) {
+            if(buffer == null || buffer.isEmpty()) {
+                return;
+            }
+            // TODO
+            if(false) {
+                responseObject = new ResponseObject("success", "XXX", "Authorization", token, 200);
+                return;
+            }
+            else {
+                responseObject = new ResponseObject("failure", "XXX", "", null, 400);
+                return;
+            }
+        }
+        else {
+            responseObject = new ResponseObject("failure", "Method not allowed", "", null, 405);
+            return;
+        }
+    }
 
 }
