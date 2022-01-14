@@ -1,7 +1,5 @@
 package at.technikum;
 
-import at.technikum.Cards.CardElementType;
-import at.technikum.Cards.CardMonsterType;
 import at.technikum.Databank.DBmanager;
 
 import java.util.UUID;
@@ -26,7 +24,7 @@ public class Main {
         //dbManager.insertUser("Elena", "test123");
         //dbManager.insertUser("Helene", "test123");
 
-        dbManager.selectUser("Matilda");
+        dbManager.getUser("Matilda");
 
         /*
         System.out.println("insertCard ");
@@ -66,6 +64,6 @@ public class Main {
         //dbManager.selectDeck("Matilda");
 
         System.out.println("selectScoreboard ");*/
-        dbManager.selectScoreboard();
+        dbManager.getScoreboard();
     }
 }

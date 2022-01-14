@@ -56,7 +56,7 @@ public class Battle {
         System.out.println(playerTwo + " plays: " + playCardTwo.getName());
         System.out.println(playCardTwo.toString());
 
-        BattleSpecialCases checkCases = new BattleSpecialCases(playCardOne.getMonsterType(), playCardOne.getElementType(), playCardTwo.getMonsterType(), playCardTwo.getElementType());
+        BattleSpecialCases checkCases = new BattleSpecialCases(playCardOne.getCardMonsterType(), playCardOne.getElementType(), playCardTwo.getCardMonsterType(), playCardTwo.getElementType());
         specialCasesResult = checkCases.checkForSpecialCase();
 
         switch(specialCasesResult) {

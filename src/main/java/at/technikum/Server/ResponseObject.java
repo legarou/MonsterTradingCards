@@ -7,8 +7,8 @@ import lombok.Getter;
 import java.util.HashMap;
 
 public class ResponseObject {
-    @JsonProperty(value = "Success")
-     private String success;
+    @JsonProperty(value = "Outcome")
+     private String outcome;
     @JsonProperty(value = "Message")
      private String message;
     @JsonProperty(value = "Data")
@@ -21,8 +21,8 @@ public class ResponseObject {
 
      }
 
-     public ResponseObject(String success, String message, String dataInfo, Object data, int status) {
-         this.success = success;
+     public ResponseObject(String outcome, String message, String dataInfo, Object data, int status) {
+         this.outcome = outcome;
          this.message = message;
          this.data = new HashMap();
          if(data != null && !dataInfo.isEmpty()) {

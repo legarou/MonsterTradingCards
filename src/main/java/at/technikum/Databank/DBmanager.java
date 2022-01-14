@@ -3,7 +3,7 @@ package at.technikum.Databank;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 
 public class DBmanager {
@@ -26,7 +26,7 @@ public class DBmanager {
         return true;
     }
 
-    public HashMap selectUser(String username) {
+    public HashMap getUser(String username) {
         try(Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/MonsterCardGame", "swe1user", "swe1pw");
             PreparedStatement statement = connection.prepareStatement("""
                 SELECT * FROM "MonsterCardGame".public."User"
@@ -62,6 +62,39 @@ public class DBmanager {
         }
     }
 
+    public boolean updateCoinsAfterPurchase(String username) {
+        try(Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/MonsterCardGame", "swe1user", "swe1pw");
+            PreparedStatement statement = connection.prepareStatement("""
+                UPDATE "MonsterCardGame".public."User"
+                SET coins = coins - 5
+                WHERE username = ?;
+            """)
+        ) {
+            statement.setString(1, username);
+            statement.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public HashMap getCoins(String username) {
+        try(Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/MonsterCardGame", "swe1user", "swe1pw");
+            PreparedStatement statement = connection.prepareStatement("""
+                SELECT coins FROM "MonsterCardGame".public."User"
+                WHERE username = ? ;
+            """)
+        ) {
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
+            return convertToHashtable(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public boolean insertCard(UUID cardID, String name, int damage, String elementType, String monsterType) {
         try(Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/MonsterCardGame", "swe1user", "swe1pw");
             PreparedStatement statement = connection.prepareStatement("""
@@ -83,7 +116,7 @@ public class DBmanager {
         return true;
     }
 
-    public HashMap selectCard(UUID cardID) {
+    public HashMap getCard(UUID cardID) {
         try(Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/MonsterCardGame", "swe1user", "swe1pw");
             PreparedStatement statement = connection.prepareStatement("""
                 SELECT * FROM "MonsterCardGame".public."Card"
@@ -176,7 +209,7 @@ public class DBmanager {
         return true;
     }
 
-    public HashMap selectPackage(int packageID) {
+    public HashMap getPackage(int packageID) {
         try(Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/MonsterCardGame", "swe1user", "swe1pw");
             PreparedStatement statement = connection.prepareStatement("""
                 SELECT * FROM "MonsterCardGame".public."Package"
@@ -192,7 +225,40 @@ public class DBmanager {
         }
     }
 
-    public ArrayList selectFullStack(String username) {
+    public HashMap getOldestPackage() {
+        try(Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/MonsterCardGame", "swe1user", "swe1pw");
+            PreparedStatement statement = connection.prepareStatement("""
+                SELECT * FROM "Package"
+                ORDER BY "packageID" ASC
+                LIMIT 1;
+            """)
+        ) {
+            ResultSet resultSet = statement.executeQuery();
+            return convertToHashtable(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public boolean deletePackage(int packageID) {
+        try(Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/MonsterCardGame", "swe1user", "swe1pw");
+            PreparedStatement statement = connection.prepareStatement("""
+                DELETE FROM "MonsterCardGame".public."Package" 
+                WHERE "packageID" = ? ;
+                
+            """)
+        ) {
+            statement.setInt(1, packageID);
+            statement.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public List getAllCards(String username) {
         try(Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/MonsterCardGame", "swe1user", "swe1pw");
             PreparedStatement statement = connection.prepareStatement("""
                 SELECT * FROM "MonsterCardGame".public."Card"
@@ -208,10 +274,26 @@ public class DBmanager {
         }
     }
 
-    public ArrayList selectDeck(String username) {
+    public List getDeck(String username) {
         try(Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/MonsterCardGame", "swe1user", "swe1pw");
             PreparedStatement statement = connection.prepareStatement("""
                 SELECT * FROM "MonsterCardGame".public."Card"
+                WHERE "ownerID" = ? AND "inDeck" = true ;
+            """)
+        ) {
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
+            return convertToList(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List getDeckIDs(String username) {
+        try(Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/MonsterCardGame", "swe1user", "swe1pw");
+            PreparedStatement statement = connection.prepareStatement("""
+                SELECT "cardID" FROM "MonsterCardGame".public."Card"
                 WHERE "ownerID" = ? AND "inDeck" = true ;
             """)
         ) {
@@ -250,8 +332,7 @@ public class DBmanager {
             """)
         ) {
             statement.setString(1, cardID.toString());
-            ResultSet resultSet = statement.executeQuery();
-            logDB(resultSet);
+            statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -260,7 +341,7 @@ public class DBmanager {
     }
 
 
-    public ArrayList selectScoreboard() {
+    public List getScoreboard() {
         try(Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/MonsterCardGame", "swe1user", "swe1pw");
             PreparedStatement statement = connection.prepareStatement("""
                 SELECT username, elo
@@ -270,6 +351,23 @@ public class DBmanager {
         ) {
             ResultSet resultSet = statement.executeQuery();
             return convertToList(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public HashMap getStats(String username) {
+        try(Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/MonsterCardGame", "swe1user", "swe1pw");
+            PreparedStatement statement = connection.prepareStatement("""
+                SELECT elo
+                FROM "MonsterCardGame".public."User"
+                WHERE username = ? ;
+            """)
+        ) {
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
+            return convertToHashtable(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
@@ -322,11 +420,11 @@ public class DBmanager {
         }
     }
 
-    public ArrayList convertToList(ResultSet resultSet) {
+    public List convertToList(ResultSet resultSet) {
         try {
             ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
             int columnsNumber = resultSetMetaData.getColumnCount();
-            ArrayList list = new ArrayList();
+            List list = new ArrayList();
             HashMap<String, Object> hashMap = new HashMap<>();
             while (resultSet.next()) {
                 for (int i = 1; i <= columnsNumber; i++) {

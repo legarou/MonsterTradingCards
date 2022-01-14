@@ -11,6 +11,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
+
+import java.util.UUID;
 import java.util.stream.Stream;
 
 public class TestBattle {
@@ -30,15 +32,15 @@ public class TestBattle {
 
     @BeforeEach
     void init() {
-        Card monster1 = new Card("Water Wizzard", 15, CardElementType.WATER, CardMonsterType.WIZZARD);
-        Card monster2 = new Card("Fire Dragon", 25, CardElementType.FIRE, CardMonsterType.DRAGON);
-        Card monster3 = new Card("Dumb Goblin", 10, CardElementType.NORMAL, CardMonsterType.GOBLIN);
-        Card monster4 = new Card("Misguided Knight", 15, CardElementType.NORMAL, CardMonsterType.KNIGHT);
+        Card monster1 = new Card(UUID.fromString("99f8f8dc-e65e-4a95-aa2c-385823f36e2a"), "Water Wizzard", 15, CardElementType.WATER, CardMonsterType.WIZZARD);
+        Card monster2 = new Card(UUID.fromString("99f8f8dc-e25e-4a95-aa2c-782fr352fe2a"), "Fire Dragon", 25, CardElementType.FIRE, CardMonsterType.DRAGON);
+        Card monster3 = new Card(UUID.fromString("99f8f8dc-e25e-4a95-aa2c-723fgf66662a"), "Dumb Goblin", 10, CardElementType.NORMAL, CardMonsterType.GOBLIN);
+        Card monster4 = new Card(UUID.fromString("99f8f8dc-e25e-4a95-aa2c-763623f36e2a"), "Misguided Knight", 15, CardElementType.NORMAL, CardMonsterType.KNIGHT);
 
-        Card spell1 = new Card("Water Mirror", 20, CardElementType.WATER, CardMonsterType.SPELL);
-        Card spell2 = new Card("Fireball", 25, CardElementType.FIRE, CardMonsterType.SPELL);
-        Card spell3 = new Card("Rain Arrows", 15, CardElementType.NORMAL, CardMonsterType.SPELL);
-        Card spell4 = new Card("Hellfire", 50, CardElementType.FIRE, CardMonsterType.SPELL);
+        Card spell1 = new Card(UUID.fromString("99f8f8dc-e25e-4a95-aa2c-782823f36e2a"), "Water Mirror", 20, CardElementType.WATER, CardMonsterType.SPELL);
+        Card spell2 = new Card(UUID.fromString("9fe43duc-e25e-4a95-aa2c-782823f36e2a"), "Fireball", 25, CardElementType.FIRE, CardMonsterType.SPELL);
+        Card spell3 = new Card(UUID.fromString("99f4fedc-e25e-4a95-aa2c-782823f36e2a"), "Rain Arrows", 15, CardElementType.NORMAL, CardMonsterType.SPELL);
+        Card spell4 = new Card(UUID.fromString("9365h8dc-e25e-4a95-aa2c-782823f36e2a"), "Hellfire", 50, CardElementType.FIRE, CardMonsterType.SPELL);
 
         User player1 = new User("Edmund");
         User player2 = new User("Elizabeth");
