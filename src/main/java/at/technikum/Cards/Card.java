@@ -3,6 +3,7 @@ package at.technikum.Cards;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
+import java.util.HashMap;
 import java.util.UUID;
 
 public class Card {
@@ -48,6 +49,17 @@ public class Card {
         this.damage = damage;
         this.elementType = elementType;
         this.cardMonsterType = cardMonsterType;
+    }
+
+    public Card(HashMap<String, String> hashMap) {
+        this.cardID = UUID.fromString(hashMap.get("cardID"));
+        this.ownerID = hashMap.get("ownerID");
+        this.name = hashMap.get("name");
+        this.inDeck = Boolean.parseBoolean(hashMap.get("inDeck"));
+        this.tradeLock = Boolean.parseBoolean(hashMap.get("tradeLock"));
+        this.damage = Integer.parseInt(hashMap.get("damage"));
+        this.elementType = CardElementType.valueOf(hashMap.get("elementType"));
+        this.cardMonsterType = CardMonsterType.valueOf(hashMap.get("monsterType"));
     }
 
     public Card() {

@@ -1,6 +1,7 @@
 package at.technikum.Server;
 
 
+import at.technikum.Server.QueryHandler.QueryHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.BufferedReader;

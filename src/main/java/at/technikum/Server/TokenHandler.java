@@ -14,12 +14,12 @@ public class TokenHandler {
     }
 
     public boolean verifyUserToken(String token, String username) {
-        final String[] split1 = token.split(" ", 2);
-        final String[] split2 = split1[1].split("-", 2);
+        final String[] splitBasic = token.split(" ", 2);
+        final String[] split2UsernameToken = splitBasic[1].split("-", 2);
 
         DBwrapper dbWrapper = new DBwrapper();
 
-        if( split1[0].equals("Basic") && split2[1].equals("mtcgToken") && split2[0].equals(username)) {
+        if( splitBasic[0].equals("Basic") && split2UsernameToken[1].equals("mtcgToken") && split2UsernameToken[0].equals(username)) {
             if( null != dbWrapper.getUser(username)) {
                 return true;
             }
@@ -28,16 +28,16 @@ public class TokenHandler {
     }
 
     public String getUsername(String token) {
-        final String[] split1 = token.split(" ", 2);
-        final String[] split2 = split1[1].split("-", 2);
-        return split2[0];
+        final String[] splitBasic = token.split(" ", 2);
+        final String[] split2UsernameToken = splitBasic[1].split("-", 2);
+        return split2UsernameToken[0];
     }
 
     public boolean verifyToken(String token) {
-        final String[] split1 = token.split(" ", 2);
-        final String[] split2 = split1[1].split("-", 2);
+        final String[] splitBasic = token.split(" ", 2);
+        final String[] split2UsernameToken = splitBasic[1].split("-", 2);
 
-        if( split1[0].equals("Basic") && split2[1].equals("mtcgToken")) {
+        if( splitBasic[0].equals("Basic") && split2UsernameToken[1].equals("mtcgToken")) {
             return true;
         }
         return false;

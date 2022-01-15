@@ -134,7 +134,13 @@ echo.
 curl -X GET http://localhost:10001/deck --header "Authorization: Basic altenhof-mtcgToken"
 echo.
 echo.
-echo should fail and show original from before:
+echo should fail (no changes) and show original from before:
+curl -X PUT http://localhost:10001/deck --header "Content-Type: application/json" --header "Authorization: Basic kienboec-mtcgToken" -d "[\"845f0dc7-37d0-426e-994e-43fc3ac83c08\", \"99f8f8dc-e25e-4a95-aa2c-782823f36e2a\", \"e85e3976-7c86-4d06-9a80-641c2019a79f\", \"171f6076-4eb5-4a7d-b3f2-2d650cc3d237\"]"
+echo.
+curl -X GET http://localhost:10001/deck --header "Authorization: Basic kienboec-mtcgToken"
+echo.
+echo.
+echo should fail (not his cards) and show original from before:
 curl -X PUT http://localhost:10001/deck --header "Content-Type: application/json" --header "Authorization: Basic altenhof-mtcgToken" -d "[\"845f0dc7-37d0-426e-994e-43fc3ac83c08\", \"99f8f8dc-e25e-4a95-aa2c-782823f36e2a\", \"e85e3976-7c86-4d06-9a80-641c2019a79f\", \"171f6076-4eb5-4a7d-b3f2-2d650cc3d237\"]"
 echo.
 curl -X GET http://localhost:10001/deck --header "Authorization: Basic altenhof-mtcgToken"
@@ -235,7 +241,7 @@ echo check trading deals
 curl -X GET http://localhost:10001/tradings --header "Authorization: Basic kienboec-mtcgToken"
 echo.
 echo create trading deal
-curl -X POST http://localhost:10001/tradings --header "Content-Type: application/json" --header "Authorization: Basic kienboec-mtcgToken" -d "{\"Id\": \"6cd85277-4590-49d4-b0cf-ba0a921faad0\", \"CardToTrade\": \"1cb6ab86-bdb2-47e5-b6e4-68c5ab389334\", \"Type\": \"monster\", \"MinimumDamage\": 15}"
+curl -X POST http://localhost:10001/tradings --header "Content-Type: application/json" --header "Authorization: Basic kienboec-mtcgToken" -d "{\"Id\": \"6cd85277-4590-49d4-b0cf-ba0a921faad0\", \"CardToTrade\": \"1cb6ab86-bdb2-47e5-b6e4-68c5ab389334\", \"MonsterType\": \"MONSTER\", \"ElementType\": \"NONE\", \"MinimumDamage\": 15}"
 echo.
 echo check trading deals
 curl -X GET http://localhost:10001/tradings --header "Authorization: Basic kienboec-mtcgToken"
@@ -251,7 +257,7 @@ REM --------------------------------------------------
 echo 21) check trading deals
 curl -X GET http://localhost:10001/tradings  --header "Authorization: Basic kienboec-mtcgToken"
 echo.
-curl -X POST http://localhost:10001/tradings --header "Content-Type: application/json" --header "Authorization: Basic kienboec-mtcgToken" -d "{\"Id\": \"6cd85277-4590-49d4-b0cf-ba0a921faad0\", \"CardToTrade\": \"1cb6ab86-bdb2-47e5-b6e4-68c5ab389334\", \"Type\": \"monster\", \"MinimumDamage\": 15}"
+curl -X POST http://localhost:10001/tradings --header "Content-Type: application/json" --header "Authorization: Basic kienboec-mtcgToken" -d "{\"Id\": \"6cd85277-4590-49d4-b0cf-ba0a921faad0\", \"CardToTrade\": \"1cb6ab86-bdb2-47e5-b6e4-68c5ab389334\", \"MonsterType\": \"MONSTER\", \"ElementType\": \"NONE\", \"MinimumDamage\": 15}"
 echo check trading deals
 curl -X GET http://localhost:10001/tradings  --header "Authorization: Basic kienboec-mtcgToken"
 echo.
