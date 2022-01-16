@@ -480,6 +480,24 @@ public class DBmanager {
         }
     }
 
+    public boolean updateElo(String username, Integer elo) {
+        try(Connection connection = DriverManager.getConnection(db_url, db_user, db_password);
+            PreparedStatement statement = connection.prepareStatement("""
+                UPDATE "MonsterCardGame".public."User"
+                SET elo = ?
+                WHERE username = ? ;
+            """)
+        ) {
+            statement.setInt(1, elo);
+            statement.setString(2, username);
+            statement.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public void logDB(ResultSet resultSet) {
         try {
             ResultSetMetaData rsmd = resultSet.getMetaData();

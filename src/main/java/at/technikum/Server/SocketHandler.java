@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class SocketHandler extends Thread {
 
@@ -18,11 +19,13 @@ public class SocketHandler extends Thread {
     private final ResponseHandler responseHandler;
     private final HeaderReader headerReader = new HeaderReader();
     private final ObjectMapper objectMapper = new ObjectMapper();
+    ConcurrentHashMap<String, BattleRoom> concurrentMap;
 
-    public SocketHandler(Socket clientConnection) throws IOException {
+    public SocketHandler(Socket clientConnection, ConcurrentHashMap<String, BattleRoom> concurrentMap) throws IOException {
         this.clientConnection = clientConnection;
         bufferedReader = new BufferedReader(new InputStreamReader(clientConnection.getInputStream()));
         responseHandler = new ResponseHandler(new BufferedWriter(new OutputStreamWriter(clientConnection.getOutputStream())));
+        this.concurrentMap = concurrentMap;
     }
 
     @Override
@@ -48,7 +51,7 @@ public class SocketHandler extends Thread {
             if (headerReader.getContentLength() > 0) {
                 bufferedReader.read(charBuffer, 0, headerReader.getContentLength());
             }
-            QueryHandler queryHandler = new QueryHandler(httpMethodWithPath, new String(charBuffer), headerReader.getHeader("Authorization"));
+            QueryHandler queryHandler = new QueryHandler(httpMethodWithPath, new String(charBuffer), headerReader.getHeader("Authorization"), concurrentMap);
             queryHandler.processQuery();
             responseHandler.reply(queryHandler.getResponseObject());
             responseHandler.reply();

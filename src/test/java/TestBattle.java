@@ -2,7 +2,6 @@ import at.technikum.Battle.Battle;
 import at.technikum.Cards.Card;
 import at.technikum.Cards.CardElementType;
 import at.technikum.Cards.CardMonsterType;
-import at.technikum.User.Stack;
 import at.technikum.User.User;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -45,6 +44,7 @@ public class TestBattle {
         User player1 = new User("Edmund");
         User player2 = new User("Elizabeth");
 
+        /*
         Stack stack1 = player1.getCardStack();
         Stack stack2 = player2.getCardStack();
 
@@ -64,14 +64,15 @@ public class TestBattle {
         stack2.addToDeck(monster2);
         stack2.addToDeck(monster4);
         stack2.addToDeck(spell1);
-        stack2.addToDeck(spell2);
+        stack2.addToDeck(spell2); */
 
+        // TODO FIX
         System.out.println("Player1");
-        player1.getCardStack().printStack();
+        //player1.getCardStack().printStack();
         System.out.println("Player2");
-        player2.getCardStack().printStack();
+        //player2.getCardStack().printStack();
 
-        battleClass = new Battle(player1, player2);
+        //battleClass = new Battle(player1, player2);
     }
 
     @Test

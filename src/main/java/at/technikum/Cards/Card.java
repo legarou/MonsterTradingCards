@@ -75,4 +75,8 @@ public class Card {
         }
 
     }
+
+    public void boostDamage(int plus) {
+        this.damage += plus;
+    }
 }

@@ -1,8 +1,16 @@
 package at.technikum.User;
 
+import at.technikum.Cards.Card;
+import at.technikum.Cards.CardElementType;
+import at.technikum.Cards.CardMonsterType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.UUID;
 
 @Data
 public class User {
@@ -26,7 +34,8 @@ public class User {
     @Getter
     private int coins;
     @Getter
-    private Stack cardStack;
+    @Setter
+    private ArrayList<Card> deck;
 
     public User() {
 
@@ -34,7 +43,17 @@ public class User {
 
     public User(String username) {
         this.username = username;
-        this.coins = 20;
-        this.cardStack = new Stack();
+        this.deck = null;
+    }
+
+    public User(HashMap<String, String> hashMap) {
+        this.username = hashMap.get("username");
+        this.elo = Integer.parseInt(hashMap.get("elo"));
+        this.coins = Integer.parseInt(hashMap.get("coins"));
+        this.password = hashMap.get("password");
+        this.bio = hashMap.get("bio");
+        this.image = hashMap.get("image");
+        this.name = hashMap.get("name");
+
     }
 }

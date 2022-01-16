@@ -3,6 +3,7 @@ package at.technikum.Databank;
 import at.technikum.Cards.Card;
 import at.technikum.Store.Store;
 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +21,6 @@ public class DBwrapper {
     }
 
     public HashMap getUser(String username) {
-
         return manager.getUser(username);
     }
 
@@ -72,6 +72,9 @@ public class DBwrapper {
 
     public Store selectFromStore(UUID storeID) {
         HashMap<String, String> hashMap = manager.selectFromStore(storeID);
+        if(null == hashMap || hashMap.isEmpty()){
+            return null;
+        }
         return new Store(hashMap);
     }
 
@@ -158,5 +161,9 @@ public class DBwrapper {
             return -1;
         }
         return Integer.valueOf(elo.get("elo").toString());
+    }
+
+    public boolean updateElo(String username, int elo) {
+        return manager.updateElo(username, elo);
     }
 }

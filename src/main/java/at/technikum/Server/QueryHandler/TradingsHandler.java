@@ -159,11 +159,13 @@ public class TradingsHandler {
     public ResponseObject handleDELETE()  {
         String username = tokenHandler.getUsername(token);
 
+        System.out.println("before get store entry");
         Store storeEnty = dbWrapper.selectFromStore(storeID);
         if(null == storeEnty) {
             return new ResponseObject("failure", "Could not reach store", "", null, 400);
         }
 
+        System.out.println("before get card entry");
         Card cardToTrade = dbWrapper.getCard(storeEnty.getCardToTrade());
         String sellerUsername = cardToTrade.getOwnerID();
         if(! username.equals(sellerUsername)) {
