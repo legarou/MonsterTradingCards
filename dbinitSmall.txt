@@ -1,0 +1,127 @@
+-- auto-generated definition
+create database "MonsterCardGame"
+    with owner swe1user;
+
+-- auto-generated definition
+create schema public;
+
+comment on schema public is 'standard public schema';
+
+alter schema public owner to swe1user;
+
+grant create, usage on schema public to public;
+
+create table if not exists "User"
+(
+    username text                not null
+        constraint user_pk
+            primary key,
+    coins    integer default 20  not null,
+    elo      integer default 100 not null,
+    image    text,
+    name     text,
+    bio      text,
+    password text                not null
+);
+
+alter table "User"
+    owner to swe1user;
+
+create unique index if not exists user_username_uindex
+    on "User" (username);
+
+create table if not exists "Card"
+(
+    "cardID"      uuid                  not null
+        constraint card_pk
+            primary key,
+    "ownerID"     text
+        constraint card___fk__user
+            references "User"
+            on delete cascade,
+    "inDeck"      boolean default false not null,
+    "tradeLock"   boolean default true  not null,
+    name          text                  not null,
+    damage        integer               not null,
+    "elementType" text                  not null,
+    "monsterType" text                  not null
+);
+
+alter table "Card"
+    owner to swe1user;
+
+create unique index if not exists card_cardid_uindex
+    on "Card" ("cardID");
+
+create table if not exists "Package"
+(
+    "packageID" serial
+        constraint package_pk
+            primary key,
+    "cardID_1"  uuid not null
+        constraint "package___fk__cardID_1"
+            references "Card"
+            on delete cascade,
+    "cardID_2"  uuid not null
+        constraint "package___fk__cardID_2"
+            references "Card"
+            on delete cascade,
+    "cardID_3"  uuid not null
+        constraint "package___fk__cardID_3"
+            references "Card"
+            on delete cascade,
+    "cardID_4"  uuid not null
+        constraint "package___fk__cardID_4"
+            references "Card"
+            on delete cascade,
+    "cardID_5"  uuid not null
+        constraint "package___fk__cardID_5"
+            references "Card"
+            on delete cascade
+);
+
+alter table "Package"
+    owner to swe1user;
+
+create unique index if not exists package_cardid_1_uindex
+    on "Package" ("cardID_1");
+
+create unique index if not exists package_cardid_2_uindex
+    on "Package" ("cardID_2");
+
+create unique index if not exists package_cardid_3_uindex
+    on "Package" ("cardID_3");
+
+create unique index if not exists package_cardid_4_uindex
+    on "Package" ("cardID_4");
+
+create unique index if not exists package_cardid_5_uindex
+    on "Package" ("cardID_5");
+
+create unique index if not exists package_packageid_uindex
+    on "Package" ("packageID");
+
+create table if not exists "Store"
+(
+    "storeCardID"             uuid not null
+        constraint "store___fk__storeCardID"
+            references "Card"
+            on delete cascade,
+    "requirementSpellMonster" text not null,
+    "requirementElement"      text,
+    "requirementMinDamage"    integer default 0,
+    "storeID"                 uuid not null
+        constraint store_pk
+            primary key
+);
+
+alter table "Store"
+    owner to swe1user;
+
+create unique index if not exists store_storecardid_uindex
+    on "Store" ("storeCardID");
+
+create unique index if not exists store_storeid_uindex_2
+    on "Store" ("storeID");
+
+
