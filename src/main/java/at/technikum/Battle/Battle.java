@@ -236,7 +236,6 @@ public class Battle {
     }
 
     private void proclaimWinner() {
-        // TODO ADD LOGGER for winner
         switch (battleOutcome) {
             case DRAW -> {
                 System.out.println("Both players are matched in might and wit! No winners this round!");

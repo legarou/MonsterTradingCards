@@ -172,8 +172,6 @@ public class TradingsHandler {
             return new ResponseObject("failure", "Cannot delete somebody else's entry", "", null, 400);
         }
 
-
-
         if( ! (dbWrapper.deleteCardFromStore(storeID))) {
             return new ResponseObject("failure", "Could not remove store entry", "", null, 400);
         }
