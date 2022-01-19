@@ -1,33 +1,21 @@
 package at.technikum.Server.QueryHandler;
 
-import at.technikum.Cards.Card;
-import at.technikum.Databank.DBwrapper;
 import at.technikum.Server.BattleRoom;
 import at.technikum.Server.ResponseObject;
-import at.technikum.Server.TokenHandler;
-import at.technikum.User.User;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 
-import java.util.*;
+
 import java.util.concurrent.ConcurrentHashMap;
 
 public class QueryHandler {
-    private final String httpMethodWithPath;
     private final String buffer;
-    private final ObjectMapper objectMapper = new ObjectMapper();
-    private final DBwrapper dbWrapper = new DBwrapper();
-    private final TokenHandler tokenHandler = new TokenHandler();
     @Getter
-    private ResponseObject responseObject;
-    private String token;
-    private String request;
-    private String path;
+    private final String token;
+    private final String request;
+    private final String path;
     ConcurrentHashMap<String, BattleRoom> concurrentMap;
 
     public QueryHandler(String httpMethodWithPath, String buffer, String token, ConcurrentHashMap<String, BattleRoom> concurrentMap) {
-        this.httpMethodWithPath = httpMethodWithPath;
         this.buffer = buffer;
         this.token = token;
         this.concurrentMap = concurrentMap;

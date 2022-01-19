@@ -24,7 +24,7 @@ public class BattleRoom {
     private boolean battleResult;
     @Getter
     private HashMap<String, String> battleLog;
-    private DBwrapper dBwrapper = new DBwrapper();
+    private final DBwrapper dBwrapper = new DBwrapper();
 
     public BattleRoom(User playerOne) {
         this.playerOne = playerOne;
@@ -61,11 +61,7 @@ public class BattleRoom {
     }
 
     public boolean checkIfBothDone() {
-        if( playerOneDone && playerTwoDone) {
-            return true;
-        }
-        else {
-            return false;
-        }
+
+        return ( playerOneDone && playerTwoDone);
     }
 }

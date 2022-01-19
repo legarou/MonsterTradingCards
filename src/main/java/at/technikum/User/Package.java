@@ -5,7 +5,7 @@ import at.technikum.Cards.Card;
 import java.util.ArrayList;
 
 public class Package {
-    private ArrayList<Card> cards;
+    private final ArrayList<Card> cards;
 
     public Package(ArrayList<Card> cards) {
         this.cards = cards;

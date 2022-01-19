@@ -245,7 +245,7 @@ public class DBmanager {
         }
     }
 
-    public List getFullStore() {
+    public List<HashMap> getFullStore() {
         try(Connection connection = DriverManager.getConnection(db_url, db_user, db_password);
             PreparedStatement statement = connection.prepareStatement("""
                 SELECT * FROM "MonsterCardGame".public."Store";
@@ -332,9 +332,8 @@ public class DBmanager {
     public boolean deletePackage(int packageID) {
         try(Connection connection = DriverManager.getConnection(db_url, db_user, db_password);
             PreparedStatement statement = connection.prepareStatement("""
-                DELETE FROM "MonsterCardGame".public."Package" 
-                WHERE "packageID" = ? ;
-                
+                DELETE FROM "MonsterCardGame".public."Package"
+                WHERE "packageID" = ?;
             """)
         ) {
             statement.setInt(1, packageID);
@@ -346,7 +345,7 @@ public class DBmanager {
         }
     }
 
-    public List getAllCards(String username) {
+    public List<HashMap> getAllCards(String username) {
         try(Connection connection = DriverManager.getConnection(db_url, db_user, db_password);
             PreparedStatement statement = connection.prepareStatement("""
                 SELECT * FROM "MonsterCardGame".public."Card"
@@ -362,7 +361,7 @@ public class DBmanager {
         }
     }
 
-    public List getDeck(String username) {
+    public List<HashMap> getDeck(String username) {
         try(Connection connection = DriverManager.getConnection(db_url, db_user, db_password);
             PreparedStatement statement = connection.prepareStatement("""
                 SELECT * FROM "MonsterCardGame".public."Card"
@@ -447,7 +446,7 @@ public class DBmanager {
     }
 
 
-    public List getScoreboard() {
+    public List<HashMap> getScoreboard() {
         try(Connection connection = DriverManager.getConnection(db_url, db_user, db_password);
             PreparedStatement statement = connection.prepareStatement("""
                 SELECT username, elo
@@ -502,14 +501,12 @@ public class DBmanager {
         try {
             ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
             int columnsNumber = resultSetMetaData.getColumnCount();
-            HashMap<String, Object> hashMap = new HashMap<String, Object>();
+            HashMap<String, Object> hashMap = new HashMap<>();
             while (resultSet.next()) {
                 for (int i = 1; i <= columnsNumber; i++) {
                     hashMap.put(resultSetMetaData.getColumnName(i), resultSet.getString(i));
                 }
             }
-            //System.out.println("Hashmap:");
-            //System.out.println(hashMap);
             if(hashMap.isEmpty()) {
                 return null;
             }
@@ -526,7 +523,7 @@ public class DBmanager {
         try {
             ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
             int columnsNumber = resultSetMetaData.getColumnCount();
-            List list = new ArrayList();
+            List<HashMap> list = new ArrayList();
             HashMap<String, String> hashMap = new HashMap<>();
             while (resultSet.next()) {
                 for (int i = 1; i <= columnsNumber; i++) {
@@ -535,8 +532,6 @@ public class DBmanager {
                 list.add(hashMap);
                 hashMap = new HashMap<>();
             }
-            //System.out.println("List:");
-            //System.out.println(list);
             return list;
         } catch (SQLException e) {
             e.printStackTrace();

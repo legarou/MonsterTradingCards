@@ -1,10 +1,9 @@
 package at.technikum.Server.QueryHandler;
 
+import at.technikum.Cards.Card;
 import at.technikum.Databank.DBwrapper;
 import at.technikum.Server.ResponseObject;
 import at.technikum.Server.TokenHandler;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.List;
 
@@ -38,10 +37,10 @@ public class CardsHandler {
         String username = tokenHandler.getUsername(token);
 
         if(tokenHandler.verifyToken(token)) {
-            List list = dbWrapper.getAllCards(username);
+            List<Card> list = dbWrapper.getAllCards(username);
 
             if(null != list){
-                return new ResponseObject("success", "Package was inserted", "Stack of cards", list, 200);
+                return new ResponseObject("success", "Stack was sent", "Stack of cards", list, 200);
             }
             else {
                 return new ResponseObject("failure", "Could not get any cards for user", "", null, 400);

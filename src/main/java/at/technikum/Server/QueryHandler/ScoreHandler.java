@@ -3,15 +3,12 @@ package at.technikum.Server.QueryHandler;
 import at.technikum.Databank.DBwrapper;
 import at.technikum.Server.ResponseObject;
 import at.technikum.Server.TokenHandler;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.List;
 
 public class ScoreHandler {
 
     private final String token;
-    private final ObjectMapper objectMapper = new ObjectMapper();
     private final DBwrapper dbWrapper = new DBwrapper();
     private final TokenHandler tokenHandler = new TokenHandler();
 

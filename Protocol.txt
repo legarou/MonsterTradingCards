@@ -41,7 +41,7 @@ November 11: ~2 hours -> rewrite some functions in battle class (had many differ
 December 28: ~3 hours -> downloaded and added maven, docker and postman
 
 January 1: ~2 hours -> planning out how to continue with project and set up databank
-January 4: ~1 hour -> starting on test cases
+January 4: ~2 hours -> starting on test cases
 January 5: ~4 hours -> working on test cases
 January 6: ~4-5 hours -> working on databank and database manager
 January 7: ~3 hours -> started on server
@@ -49,7 +49,23 @@ January 11: ~5 hours -> working on server handling
 January 12: ~4 hours -> working on server handling
 January 13: ~5 hours -> working on server handling
 January 14: ~4 hours -> working on server handling
-January 15: ~4 hours -> working on server handling
-January 16: ~3 hours -> working on server handling
+January 15: ~5 hours -> working on server handling
+January 16: ~4 hours -> working on server handling
 January 17: ~4 hours -> working on server handling and tests
 January 19: ~6 hours -> finish test cases, small fixes, write protocol and re-write lost UML diagram
+
+----- Lessons learned
+If the layout is not properly planned, you will have to change up your setup a few times. I redid my battle class a few times.
+It is also okay to redo a whole class instead of adapting it to make it much better.
+
+----- Unique feature
+I have a function called rollDiceForBoost(String username, List<Card> deck) that gets cfalled during the fight between two cards at the beginning of each round.
+It "randomly" chooses a number between 0 and 9 and compares it to the string lenghth of the username of the player modulo 10 (to make it more unique for each user).
+It then compare the number to (the string lenghth of the username of the player modulo 10) and if it is the same number, each card in the players deck gets a boost for the whole game of plus 5-10 attack points, again random.
+So a "waek" deck could become much stronger with some luck!
+
+
+link to git:
+https://github.com/legarou/MonsterTradingCards
+
+

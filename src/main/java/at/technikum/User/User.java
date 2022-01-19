@@ -1,8 +1,6 @@
 package at.technikum.User;
 
 import at.technikum.Cards.Card;
-import at.technikum.Cards.CardElementType;
-import at.technikum.Cards.CardMonsterType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.Getter;
@@ -10,7 +8,6 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.UUID;
 
 @Data
 public class User {

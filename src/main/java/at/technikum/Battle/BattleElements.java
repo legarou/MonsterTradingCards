@@ -13,12 +13,6 @@ public class BattleElements {
         this.message = "";
     }
 
-    public void switchCards() {
-        CardElementType temp = cardOne;
-        cardOne = cardTwo;
-        cardTwo = temp;
-    }
-
     public String getMessage() {
         return String.valueOf(message);
     }

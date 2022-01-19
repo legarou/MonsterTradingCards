@@ -1,7 +1,6 @@
 package at.technikum.Store;
 
 import at.technikum.Cards.Card;
-import at.technikum.Cards.CardElementType;
 import at.technikum.Cards.CardMonsterType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -59,20 +58,10 @@ public class Store {
                 return true;
             }
             case SPELL -> {
-                if( ! (CardMonsterType.SPELL == card.getCardMonsterType())) {
-                    return false;
-                }
-                else {
-                    return true;
-                }
+                return (CardMonsterType.SPELL == card.getCardMonsterType());
             }
             case MONSTER -> {
-                if( CardMonsterType.SPELL == card.getCardMonsterType()) {
-                    return false;
-                }
-                else {
-                    return true;
-                }
+                return (! (CardMonsterType.SPELL == card.getCardMonsterType()));
             }
         }
 

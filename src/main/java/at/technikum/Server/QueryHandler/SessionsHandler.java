@@ -46,6 +46,10 @@ public class SessionsHandler {
         final User user = objectMapper.readValue(buffer, User.class);
         HashMap<String, Object> hashMap = dbWrapper.getUser(user.getUsername());
 
+        if(null == hashMap) {
+            return new ResponseObject("failure", "Could not find user", "", null, 400);
+        }
+
         if(user.getPassword().equals(hashMap.get("password"))) {
             String token = tokenHandler.createToken(user.getUsername());
             return new ResponseObject("success", "User was logged in", "Authorization", token, 200);

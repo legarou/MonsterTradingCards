@@ -5,11 +5,9 @@ import at.technikum.Databank.DBwrapper;
 import at.technikum.Server.ResponseObject;
 import at.technikum.Server.TokenHandler;
 import at.technikum.Store.Store;
-import at.technikum.User.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 

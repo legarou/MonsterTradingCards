@@ -1,7 +1,6 @@
 package at.technikum.Battle;
 
 import at.technikum.Cards.Card;
-import at.technikum.User.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -230,11 +229,8 @@ public class Battle {
 
     // returns true if any deck is empty
     public boolean isGameOver() {
-        if (deckOne.size() == 0 || deckTwo.size() == 0) {
-            return true;
-        } else {
-            return false;
-        }
+
+        return (deckOne.size() == 0 || deckTwo.size() == 0);
     }
 
     private void proclaimWinner() {

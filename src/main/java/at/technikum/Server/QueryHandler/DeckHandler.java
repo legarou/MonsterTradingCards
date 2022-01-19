@@ -75,18 +75,19 @@ public class DeckHandler {
         if(4 != newDeck.size()){
             return new ResponseObject("failure", "Deck must contain exactly 4 cards", "", null, 400);
         }
-        else if((null != currentDeck) && (4 == currentDeck.size())) {
 
-            for(int i=0; i<4; i++) {
-                if(! dbWrapper.isCardOwner(newDeck.get(i).getCardID(), username)) {
-                    return new ResponseObject("failure", "Cannot use cards that are not owned by user", "Current deck", currentDeck, 400);
-                }
+        for(int i=0; i<4; i++) {
+            if(! dbWrapper.isCardOwner(newDeck.get(i).getCardID(), username)) {
+                return new ResponseObject("failure", "Cannot use cards that are not owned by user", "Current deck", currentDeck, 400);
             }
+        }
+
+        if((null != currentDeck) && (4 == currentDeck.size())) {
 
             int count = 0;
             for(int i=0; i<4; i++) {
                 Card card = currentDeck.get(i);
-                for(int j=0; i<4; i++) {
+                for(int j=0; j<4; j++) {
                     if(card.getCardID().compareTo(newDeck.get(i).getCardID()) == 0) {
                         count++;
                         System.out.println("Card is same");
@@ -108,13 +109,15 @@ public class DeckHandler {
         }
 
         System.out.println("add new deck");
+        System.out.println(newDeck);
         for(int i=0; i<4; i++) {
             if( ! dbWrapper.insertIntoDeck(newDeck.get(i).getCardID())) {
                 return new ResponseObject("failure", "Could not add all cards to deck", "", null, 400);
             }
+            System.out.println("added " + i);
         }
 
-        return new ResponseObject("success", "Updated deck", "", null, 200);
+        return new ResponseObject("success", "Deck was updated", "New_deck", newDeck, 200);
     }
 
     public ResponseObject handleGET() {
@@ -131,10 +134,8 @@ public class DeckHandler {
     public List<HashMap> plainDeck(List<Card> list) {
         List newList = new ArrayList<>();
         HashMap<String, Object> newHashMap = new HashMap<>();
-        Card card;
 
-        for(int i=0; i<list.size(); i++){
-            card = list.get(i);
+        for(Card card : list) {
             newHashMap.put("name", card.getName());
             newHashMap.put("damage", card.getDamage());
             newHashMap.put("elementType", card.getElementType());

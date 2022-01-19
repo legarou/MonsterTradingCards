@@ -3,7 +3,6 @@ package at.technikum.Databank;
 import at.technikum.Cards.Card;
 import at.technikum.Store.Store;
 
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,6 +52,9 @@ public class DBwrapper {
 
     public boolean isCardOwner(UUID cardID, String username) {
         HashMap hashMap = manager.getCardOwner(cardID);
+        if(hashMap.isEmpty()) {
+            return false;
+        }
         return username.equals(hashMap.get("ownerID"));
     }
 
@@ -81,8 +83,8 @@ public class DBwrapper {
     public List<Store> getFullStore() {
         List<Store> listOfStore = new ArrayList();
         List<HashMap> listOfHash = manager.getFullStore();
-        for(int i = 0; i < listOfHash.size(); i++) {
-            listOfStore.add((new Store(listOfHash.get(i))));
+        for(HashMap map : listOfHash) {
+            listOfStore.add(new Store(map));
         }
         return listOfStore;
     }
@@ -102,12 +104,12 @@ public class DBwrapper {
         return manager.getPackage(packageID);
     }
 
-    public List getAllCards(String username) {
+    public List<Card> getAllCards(String username) {
         List<Card> listOfCard = new ArrayList();
         List<HashMap> listOfHash = manager.getAllCards(username);
         System.out.println(listOfHash);
-        for(int i = 0; i < listOfHash.size(); i++) {
-            listOfCard.add((new Card(listOfHash.get(i))));
+        for(HashMap map : listOfHash) {
+            listOfCard.add(new Card(map));
         }
         return listOfCard;
     }
@@ -115,8 +117,8 @@ public class DBwrapper {
     public List getDeck(String username) {
         List<Card> listOfCard = new ArrayList();
         List<HashMap> listOfHash = manager.getDeck(username);
-        for(int i = 0; i < listOfHash.size(); i++) {
-            listOfCard.add((new Card(listOfHash.get(i))));
+        for(HashMap map : listOfHash) {
+            listOfCard.add(new Card(map));
         }
         return listOfCard;
     }
@@ -150,7 +152,7 @@ public class DBwrapper {
         return  manager.removeFromTradeLock(cardID);
     }
 
-    public List getScoreboard() {
+    public List<HashMap> getScoreboard() {
 
         return manager.getScoreboard();
     }

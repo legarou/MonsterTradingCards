@@ -28,18 +28,12 @@ public class UsersHandler {
 
     public ResponseObject doHandle() {
         try {
-            if(request.equals("POST")) {
-                return handlePOST();
-            }
-            else if(request.equals("GET")) {
-                return handleGET();
-            }
-            else if(request.equals("PUT")) {
-                return handlePUT();
-            }
-            else {
-                return new ResponseObject("failure", "Method not allowed", "", null, 405);
-            }
+            return switch (request) {
+                case "POST" -> handlePOST();
+                case "GET" -> handleGET();
+                case "PUT" -> handlePUT();
+                default -> new ResponseObject("failure", "Method not allowed", "", null, 405);
+            };
         }
         catch(JsonProcessingException ex) {
             ex.printStackTrace();
@@ -86,7 +80,7 @@ public class UsersHandler {
             HashMap<String, Object> hashMap = dbWrapper.getUser(username);
 
             if(null != hashMap){
-                return new ResponseObject("success", "User data sent", "User data", hashMap, 200);
+                return new ResponseObject("success", "User data sent", "User_data", hashMap, 200);
             }
             else {
                 return new ResponseObject("failure", "Could not retrieve user data", "", null, 400);

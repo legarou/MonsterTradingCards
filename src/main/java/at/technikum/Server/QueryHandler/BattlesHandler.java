@@ -5,8 +5,6 @@ import at.technikum.Server.BattleRoom;
 import at.technikum.Server.ResponseObject;
 import at.technikum.Server.TokenHandler;
 import at.technikum.User.User;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -16,7 +14,6 @@ import java.util.concurrent.ThreadLocalRandom;
 public class BattlesHandler {
 
     private final String token;
-    private final ObjectMapper objectMapper = new ObjectMapper();
     private final DBwrapper dbWrapper = new DBwrapper();
     private final TokenHandler tokenHandler = new TokenHandler();
     ConcurrentHashMap<String, BattleRoom> concurrentMap;
@@ -49,11 +46,6 @@ public class BattlesHandler {
 
             this.username = tokenHandler.getUsername(token);
             this.user = new User(dbWrapper.getUser(username));
-
-            String username = tokenHandler.getUsername(token);
-            boolean foundARoom = false;
-
-            User user = new User(dbWrapper.getUser(username));
 
 
 

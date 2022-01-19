@@ -1,0 +1,867 @@
+{
+	"info": {
+		"_postman_id": "970a50a8-b17a-4130-95e4-59fe2ea02522",
+		"name": "MTCG Test Postman",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"est for status code 200\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Test for outcome success\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Outcome).to.eql(\"success\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Username\": \"dolly\",\r\n    \"Password\": \"parton\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/users",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test for status code 200\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Test for outcome success\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Outcome).to.eql(\"success\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Test for response Token\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Data.Authorization).to.eql(\"Basic dolly-mtcgToken\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Username\": \"dolly\",\r\n    \"Password\": \"parton\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/sessions",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"sessions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login User Fail username",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test for status code 400\", function(){\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Test for outcome failure\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Outcome).to.eql(\"failure\");\r",
+							"    pm.expect(jsonData.Message).to.eql(\"Could not find user\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Username\": \"dollys\",\r\n    \"Password\": \"parton\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/sessions",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"sessions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User data Empty",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test for status code 200\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Test for outcome success\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Outcome).to.eql(\"success\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Test for correct data\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Data.User_data.image).to.eql(null);\r",
+							"    pm.expect(jsonData.Data.User_data.password).to.eql(\"parton\");\r",
+							"    pm.expect(jsonData.Data.User_data.coins).to.eql(\"20\");\r",
+							"    pm.expect(jsonData.Data.User_data.elo).to.eql(\"100\");\r",
+							"    pm.expect(jsonData.Data.User_data.name).to.eql(null);\r",
+							"    pm.expect(jsonData.Data.User_data.bio).to.eql(null);\r",
+							"    pm.expect(jsonData.Data.User_data.username).to.eql(\"dolly\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic dolly-mtcgToken",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/users/dolly",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						"dolly"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit User data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test for status code 200\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Test for outcome success\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Outcome).to.eql(\"success\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic dolly-mtcgToken",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Name\": \"Dolores\",  \r\n    \"Bio\": \"I am a singer.\", \r\n    \"Image\": \":-o\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/users",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User data Edited",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test for status code 200\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Test for outcome success\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Outcome).to.eql(\"success\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Test for correct data\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Data.User_data.image).to.eql(\":-o\");\r",
+							"    pm.expect(jsonData.Data.User_data.password).to.eql(\"parton\");\r",
+							"    pm.expect(jsonData.Data.User_data.coins).to.eql(\"20\");\r",
+							"    pm.expect(jsonData.Data.User_data.elo).to.eql(\"100\");\r",
+							"    pm.expect(jsonData.Data.User_data.name).to.eql(\"Dolores\");\r",
+							"    pm.expect(jsonData.Data.User_data.bio).to.eql(\"I am a singer.\");\r",
+							"    pm.expect(jsonData.Data.User_data.username).to.eql(\"dolly\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic dolly-mtcgToken",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/users/dolly",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						"dolly"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deck Plain",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test for status code 200\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Test for outcome success\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Outcome).to.eql(\"success\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Test for Data sent != null\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Data).to.not.null;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic kienboec-mtcgToken",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/deck",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"deck"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deck Normal",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test for status code 200\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Test for outcome success\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Outcome).to.eql(\"success\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Test for Data sent != null\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Data).to.not.null;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic kienboec-mtcgToken",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/deck",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"deck"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all Cards",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test for status code 200\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Test for outcome success\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Outcome).to.eql(\"success\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Test for Data sent == null\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Data).to.not.null;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic kienboec-mtcgToken",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/cards",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"cards"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all Cards Fail Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test for status code 400\", function(){\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Test for outcome failure\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Outcome).to.eql(\"failure\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Test for Data sent == null\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Data).to.be.empty;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic kienboec-mtgToken",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/cards",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"cards"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Method not allowed Fail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test for status code 405\", function(){\r",
+							"    pm.response.to.have.status(405);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Test for outcome failure\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Outcome).to.eql(\"failure\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Test for Data sent == null\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Data).to.be.empty;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic kienboec-mtcgToken",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/cards",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"cards"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Packages",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function(){\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Success test\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Status).to.eql(\"SUCCESS\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Success test\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Data).to.eql(null);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic admin-mtcgToken",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n  {\r\n    \"@type\":\"MonsterCard\",\r\n    \"Id\": \"67f9068f-99b8-4ae4-b866-d8008d00c53d\",\r\n    \"Name\": \"WaterGoblin\",\r\n    \"Damage\": 10,\r\n    \"Elementtype\": \"WATER\",\r\n    \"Monstertype\": \"GOBLIN\"\r\n  },\r\n  {\r\n    \"@type\":\"SpellCard\",\r\n    \"Id\": \"aa9799a0-724c-49c6-8f4a-651864b14e62\",\r\n    \"Name\": \"RegularSpell\",\r\n    \"Damage\": 50,\r\n    \"Elementtype\": \"WATER\"\r\n  },\r\n  {\r\n    \"@type\":\"MonsterCard\",\r\n    \"Id\": \"d6e9c820-9b5a-40a7-a6b2-bc34752e3463\",\r\n    \"Name\": \"Knight\",\r\n    \"Damage\": 20,\r\n    \"Elementtype\": \"WATER\",\r\n    \"Monstertype\": \"GOBLIN\"\r\n  },\r\n  {\r\n    \"@type\":\"SpellCard\",\r\n    \"Id\": \"02a9c76e-b16d-427d-9240-2dd49b0d3bfd\",\r\n    \"Name\": \"RegularSpell\",\r\n    \"Damage\": 45,\r\n    \"Elementtype\": \"WATER\"\r\n  },\r\n  {\r\n    \"@type\":\"MonsterCard\",\r\n    \"Id\": \"2508bf5c-20d7-43b4-7d77-bc677decadef\",\r\n    \"Name\": \"FireElf\",\r\n    \"Damage\": 25,\r\n    \"Elementtype\": \"WATER\",\r\n    \"Monstertype\": \"GOBLIN\"\r\n  }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/packages",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"packages"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transactions Buy Package",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test for status code 200\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Test for outcome success\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Outcome).to.eql(\"success\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic dolly-mtcgToken",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:10001/transactions/packages",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10001",
+					"path": [
+						"transactions",
+						"packages"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transactions Buy Package Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test for status code 200\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Test for outcome success\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Outcome).to.eql(\"success\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic dolly-mtcgToken",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:10001/transactions/packages",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "10001",
+					"path": [
+						"transactions",
+						"packages"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Deck dolly",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test for status code 200\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Test for outcome success\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Outcome).to.eql(\"success\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Test for Data sent != null\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Data).to.not.null;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic dolly-mtcgToken",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    \"8398f51e-796d-11ec-90d6-0242ac120003\",\r\n    \"95af0db0-796d-11ec-90d6-0242ac120003\",\r\n    \"95af0edc-796d-11ec-90d6-0242ac120003\",\r\n    \"95af0ffe-796d-11ec-90d6-0242ac120003\"\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/deck",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"deck"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deck Plain Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test for status code 200\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Test for outcome success\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Outcome).to.eql(\"success\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Test for Data sent != null\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Data).to.not.null;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic dolly-mtcgToken",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/deck",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"deck"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:10001",
+			"type": "string"
+		},
+		{
+			"key": "{{user}}",
+			"value": "dummy",
+			"type": "string"
+		},
+		{
+			"key": "{{password}}",
+			"value": "password",
+			"type": "string"
+		}
+	]
+}
