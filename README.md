@@ -1,2 +1,3 @@
 # MonsterTradingCards
-swen 1
+link to git:
+https://github.com/legarou/MonsterTradingCards
