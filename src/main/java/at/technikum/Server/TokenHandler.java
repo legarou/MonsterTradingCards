@@ -25,9 +25,7 @@ public class TokenHandler {
         DBwrapper dbWrapper = new DBwrapper();
 
         if( splitBasic[0].equals("Basic") && split2UsernameToken[1].equals("mtcgToken") && split2UsernameToken[0].equals(username)) {
-            if( null != dbWrapper.getUser(username)) {
-                return true;
-            }
+            return ( null != dbWrapper.getUser(username));
         }
         return false;
     }
@@ -52,9 +50,6 @@ public class TokenHandler {
 
         final String[] split2UsernameToken = splitBasic[1].split("-", 2);
 
-        if( split2UsernameToken[1].equals("mtcgToken")) {
-            return true;
-        }
-        return false;
+        return ( split2UsernameToken[1].equals("mtcgToken"));
     }
 }
