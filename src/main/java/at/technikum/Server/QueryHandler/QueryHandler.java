@@ -41,54 +41,53 @@ public class QueryHandler {
         }
     }
 
-    public void processQuery() {
+    public ResponseObject processQuery() {
         if(path.contains("/users")) {
             if(path.contains("/users/")){
                 final String[] split2 = path.split("/", 3);
                 String username = split2[2];
                 UsersHandler usersHandler = new UsersHandler(buffer, token, request, username);
-                responseObject = usersHandler.doHandle();
+                return usersHandler.doHandle();
             }
             else {
                 UsersHandler usersHandler = new UsersHandler(buffer, token, request, "");
-                responseObject = usersHandler.doHandle();
+                return usersHandler.doHandle();
             }
         }
         else if(path.equals("/sessions")) {
             SessionsHandler sessionsHandler = new SessionsHandler(buffer, request);
-            responseObject = sessionsHandler.doHandle();
+            return sessionsHandler.doHandle();
         }
         else if(path.contains("/packages")) {
             PackagesHandler packagesHandler = new PackagesHandler(path, buffer, token, request);
-            responseObject = packagesHandler.doHandle();
+            return packagesHandler.doHandle();
         }
         else if(path.equals("/cards")) {
             CardsHandler cardsHandler = new CardsHandler(token, request);
-            responseObject = cardsHandler.doHandle();
+            return cardsHandler.doHandle();
         }
         else if(path.contains("/deck")) {
             DeckHandler deckHandler = new DeckHandler(path, buffer, token, request);
-            responseObject = deckHandler.doHandle();
+            return deckHandler.doHandle();
         }
         else if(path.equals("/battles")) {
             BattlesHandler battlesHandler = new BattlesHandler(token, request, concurrentMap);
-            responseObject = battlesHandler.doHandle();
+            return battlesHandler.doHandle();
         }
         else if(path.contains("/tradings")) {
             TradingsHandler tradingsHandler = new TradingsHandler(path, buffer, token, request);
-            responseObject = tradingsHandler.doHandle();
+            return tradingsHandler.doHandle();
         }
         else if(path.equals("/stats")) {
             StatsHandler statsHandler = new StatsHandler(token, request);
-            responseObject = statsHandler.doHandle();
+            return statsHandler.doHandle();
         }
         else if(path.equals("/score")) {
             ScoreHandler scoreHandler = new ScoreHandler(token, request);
-            responseObject = scoreHandler.doHandle();
+            return scoreHandler.doHandle();
         }
         else {
-            responseObject = new ResponseObject("failure", "Method not allowed", "", null, 405);
-            return;
+            return new ResponseObject("failure", "Method not allowed", "", null, 405);
         }
     }
 
