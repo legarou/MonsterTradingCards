@@ -498,28 +498,6 @@ public class DBmanager {
         }
     }
 
-    public void logDB(ResultSet resultSet) {
-        try {
-            ResultSetMetaData rsmd = resultSet.getMetaData();
-            int columnsNumber = rsmd.getColumnCount();
-            for (int i = 1; i <= columnsNumber; i++) {
-                if (i > 1) System.out.print("\t");
-                System.out.print(rsmd.getColumnName(i));
-            }
-            while (resultSet.next()) {
-                System.out.println();
-                for (int i = 1; i <= columnsNumber; i++) {
-                    if (i > 1) System.out.print("\t");
-                    String columnValue = resultSet.getString(i);
-                    System.out.print(columnValue);
-                }
-                System.out.println();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     public HashMap convertToHashtable(ResultSet resultSet) {
         try {
             ResultSetMetaData resultSetMetaData = resultSet.getMetaData();

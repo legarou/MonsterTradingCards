@@ -2,6 +2,7 @@ package at.technikum.Cards;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -20,6 +21,7 @@ public class Card {
     @JsonProperty (value = "Name")
     private  String name;
     @Getter
+    @Setter
     @JsonProperty (value = "Damage")
     private  int damage;
     @Getter
