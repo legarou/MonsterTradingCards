@@ -15,6 +15,11 @@ public class TokenHandler {
 
     public boolean verifyUserToken(String token, String username) {
         final String[] splitBasic = token.split(" ", 2);
+
+        if(!  splitBasic[0].equals("Basic")) {
+            return false;
+        }
+
         final String[] split2UsernameToken = splitBasic[1].split("-", 2);
 
         DBwrapper dbWrapper = new DBwrapper();
@@ -29,15 +34,25 @@ public class TokenHandler {
 
     public String getUsername(String token) {
         final String[] splitBasic = token.split(" ", 2);
+
+        if(!  splitBasic[0].equals("Basic")) {
+            return "";
+        }
         final String[] split2UsernameToken = splitBasic[1].split("-", 2);
         return split2UsernameToken[0];
     }
 
     public boolean verifyToken(String token) {
         final String[] splitBasic = token.split(" ", 2);
+
+
+        if(!  splitBasic[0].equals("Basic")) {
+            return false;
+        }
+
         final String[] split2UsernameToken = splitBasic[1].split("-", 2);
 
-        if( splitBasic[0].equals("Basic") && split2UsernameToken[1].equals("mtcgToken")) {
+        if( split2UsernameToken[1].equals("mtcgToken")) {
             return true;
         }
         return false;
