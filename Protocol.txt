@@ -1,0 +1,55 @@
+Protocol
+
+----- Technical Steps (designs, failures and selected solutions)
+uploaded databank diagram
+idea that was tossed: I had a class for Stack that had all the cards in a list and the four cards from the deck in another list. But just reading that out of the database is a much simpler and better approach, so I deleted it.
+
+----- Unit Tests (why these tests were chosen and why the tested code is critical) 
+Testing all the battle classes because they have to work properly, and return the correct winners and follow the rulse of the battle correctly.
+
+Battle Class: 
+-> checking all the different possibilies of an outcome to make sure it does it right
+• isGameOver()
+• battlePostprocessing()
+• oneRoundFight()
+• elementFight()
+• cardFight()
+• start()
+
+BattleElements:
+• checkForTrump() - checks whteher any of the cards has an element type that wins over the other
+-> important to have it working correctly because the result of the battle depends on it
+
+BattleSpeicialCases Class: 
+-> checking all the different possibilies of an outcome to make sure it does it right
+• checkForSpecialCase()
+• spellAndMonster()
+• twoMonsters()
+
+Token Handler Class:
+• verifyToken)( - make sure if verifies the tokens correctly
+• getUsername() - check that it returns the username correctly or an empty string if not possible
+
+
+
+----- Tracked time
+November 6: ~1 hour -> prepare UML diagram
+November 7: ~3 hours -> first upload, start of project and start of battle class
+Movember 10: ~3 hours -> working on battle class
+November 11: ~2 hours -> rewrite some functions in battle class (had many different funcions tat were downsized)
+
+December 28: ~3 hours -> downloaded and added maven, docker and postman
+
+January 1: ~2 hours -> planning out how to continue with project and set up databank
+January 4: ~1 hour -> starting on test cases
+January 5: ~4 hours -> working on test cases
+January 6: ~4-5 hours -> working on databank and database manager
+January 7: ~3 hours -> started on server
+January 11: ~5 hours -> working on server handling
+January 12: ~4 hours -> working on server handling
+January 13: ~5 hours -> working on server handling
+January 14: ~4 hours -> working on server handling
+January 15: ~4 hours -> working on server handling
+January 16: ~3 hours -> working on server handling
+January 17: ~4 hours -> working on server handling and tests
+January 19: ~6 hours -> finish test cases, small fixes, write protocol and re-write lost UML diagram
